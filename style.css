@@ -1,5 +1,22 @@
 
-body { font-family: Arial, sans-serif; text-align: center; background: #101010; color: white; }
-nav { margin: 20px 0; }
-nav a { color: gold; margin: 0 10px; text-decoration: none; }
-h1 { color: gold; }
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    color: white;
+    text-align: center;
+    padding: 50px;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+}
+h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+p {
+    font-size: 1.2em;
+}
