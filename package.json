@@ -1,5 +1,5 @@
 {
-  "type": "module"
+  "type": "module",
   "name": "quantum-chat",
   "version": "1.0.0",
   "description": "Quantum Chat server",
