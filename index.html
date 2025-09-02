@@ -4,92 +4,274 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
   <title>CH-Quantum Dashboard • WayPro</title>
-  <link rel="manifest" href="/manifest.webmanifest"/>
-  <link rel="stylesheet" href="/style.css"/>
-  <link rel="icon" href="/icon-dark-192.png" sizes="192x192">
   <meta name="theme-color" content="#0b0f14">
   <style>
-    .chat-wrap{display:grid;gap:10px}
+    :root{--bg:#0b0f14;--fg:#e7edf3;--card:#121a23;--line:#213041;--acc:#ff7a18}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.45 system-ui}
+    header.top{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:800}
+    .nav{display:flex;gap:6px;flex-wrap:wrap}
+    .tab-btn{background:#192532;color:#fff;border:1px solid #203040;border-radius:10px;padding:8px 10px;cursor:pointer}
+    main{padding:12px} .tab{display:none} .tab.active{display:block}
+    .grid{display:grid;gap:10px} @media(min-width:920px){.grid{grid-template-columns:1fr 1fr}}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+    h2,h3{margin:.3rem 0 .6rem}
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    input,select,textarea{background:#101822;border:1px solid #233344;color:#e7edf3;border-radius:10px;padding:8px}
+    textarea{width:100%;min-height:120px}
+    .btn{background:var(--acc);border:0;color:#111;padding:8px 12px;border-radius:10px;font-weight:800;cursor:pointer}
+    .ghost{background:#1b2430;color:#e7edf3;border:1px solid #2a394d}
+    .mono{font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace}
+    pre{background:#0f1620;border:1px solid #223243;border-radius:10px;padding:8px;white-space:pre-wrap;max-height:360px;overflow:auto}
+    .kvs{width:100%;border-collapse:separate;border-spacing:0 6px}
+    .kvs td{padding:8px 10px;border:1px solid #213041;background:#10171f}
+    .badge{background:#24364b;padding:2px 6px;border-radius:8px;font-size:.85em}
     .chat-log,.chat-archive{border:1px solid #213041;border-radius:12px;padding:10px;background:#0f1620;min-height:120px}
-    .chat-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
     .bubble{margin:8px 0}
     .bubble .bubble-inner{padding:10px 12px;border-radius:12px;display:flex;gap:8px;align-items:center}
     .bubble.user .bubble-inner{background:#17324a}
     .bubble.assistant .bubble-inner{background:#1e2a36}
     .bubble .meta{opacity:.6;font-size:.8rem;margin-left:6px}
     .bubble .speak{background:transparent;border:0;cursor:pointer;font-size:1rem}
-    @media (prefers-color-scheme: light){
-      .chat-log,.chat-archive{background:#fff;border-color:#ddd}
-      .bubble.user .bubble-inner{background:#e8f1ff}
-      .bubble.assistant .bubble-inner{background:#eef2f6}
-    }
+    .table{width:100%;border-collapse:collapse} .table th,.table td{border:1px solid #243446;padding:6px}
   </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="brand">
-    <img src="/logo-dark.svg" alt="Quantum Logo" class="logo" id="logoImg"/>
-    CH-Quantum <span class="badge">WayPro</span>
-  </div>
+<header class="top">
+  <div class="brand">CH-Quantum <span class="badge">WayPro</span> <small style="opacity:.7;margin-left:6px">UI 6.2.0</small></div>
   <nav class="nav">
-    <button id="themeToggle" class="tab-btn" title="Dark/Light">🌓</button>
     <button class="tab-btn" data-tab="home">🏠</button>
     <button class="tab-btn" data-tab="chat">💬</button>
     <button class="tab-btn" data-tab="projects">📁</button>
-    <button class="tab-btn" data-tab="files">🗂️</button>
-    <button class="tab-btn" data-tab="tools">🧰</button>
-    <button class="tab-btn" data-tab="billing">💳</button>
     <button class="tab-btn" data-tab="automation">⚡</button>
     <button class="tab-btn" data-tab="admin">⚙️</button>
   </nav>
 </header>
 
 <main>
-  <!-- … Twoje sekcje … -->
-
-  <section class="tab" id="tab-chat">
-    <div class="card">
-      <h2>💬 Chat + Lektor + Historia</h2>
-      <div class="chat-wrap">
-        <div class="chat-controls">
-          <form id="chatForm" class="row" onsubmit="return false;">
-            <input id="chatInput" placeholder="Napisz wiadomość…" style="min-width:260px"/>
-            <button id="sendBtn" class="btn">Wyślij</button>
-            <button id="sttBtn" type="button" class="btn ghost" title="Mowa → tekst">🎤</button>
-          </form>
-          <select id="langSel" title="Język lektora"><option value="pl-PL">pl-PL</option><option value="en-US">en-US</option></select>
-          <select id="voiceSel" title="Głos"></select>
-          <label>Pitch<input id="pitch" type="range" min="0" max="2" step="0.1" value="1"></label>
-          <label>Rate<input id="rate" type="range" min="0.5" max="2" step="0.1" value="1"></label>
-          <label style="margin-left:auto"><input id="syncToggle" type="checkbox" checked> Sync z KV</label>
-          <button id="syncNow" class="btn ghost">🔁 Sync teraz</button>
-          <button id="clearHist" class="btn ghost">🧹 Wyczyść</button>
+  <section class="tab active" id="tab-home">
+    <div class="grid">
+      <div class="card">
+        <h2>Start</h2>
+        <p>Ustaw ENV w Deno, wejdź z <code>?token=QDP_TOKEN</code>, potem testy poniżej.</p>
+        <div class="row">
+          <button id="btnHealth" class="btn ghost">Sprawdź /healthz</button>
+          <pre id="outHealth" class="mono" style="flex:1"></pre>
         </div>
-
-        <div id="chatLog" class="chat-log" aria-live="polite"></div>
-        <div>
-          <h3 style="margin:.4rem 0">Archiwum</h3>
-          <div id="chatHistory" class="chat-archive"></div>
-        </div>
+      </div>
+      <div class="card">
+        <h2>Skrót</h2>
+        <ol>
+          <li>Stripe Webhook → <code>/webhooks/stripe</code>, wstaw sign secret w ENV</li>
+          <li>Automation → Ping cron, Test email</li>
+          <li>Chat → wpisz, 🔊 odsłuch, 🔁 Sync</li>
+          <li>Projects → Dodaj (kategoria, entry, assets z <b>sha256</b>)</li>
+          <li>Verify → HEAD lub głęboki HASH</li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- karta Automation & reszta — bez zmian (z poprzedniej wersji) -->
+  <section class="tab" id="tab-chat">
+    <div class="card">
+      <h2>💬 Chat + Lektor + Historia</h2>
+      <div class="row">
+        <form id="chatForm" onsubmit="return false;" class="row" style="flex:1">
+          <input id="chatInput" placeholder="Napisz wiadomość…" style="flex:1;min-width:200px"/>
+          <button id="sendBtn" class="btn">Wyślij</button>
+          <button id="sttBtn" type="button" class="btn ghost" title="Mowa → tekst">🎤</button>
+        </form>
+        <select id="langSel"><option value="pl-PL">pl-PL</option><option value="en-US">en-US</option></select>
+        <select id="voiceSel"></select>
+        <label>Pitch<input id="pitch" type="range" min="0" max="2" step="0.1" value="1"></label>
+        <label>Rate<input id="rate" type="range" min="0.5" max="2" step="0.1" value="1"></label>
+        <label><input id="syncToggle" type="checkbox" checked> Sync z KV</label>
+        <button id="syncNow" class="btn ghost">🔁 Sync teraz</button>
+        <button id="clearHist" class="btn ghost">🧹 Wyczyść</button>
+        <button id="exportHist" class="btn ghost">⬇️ Export JSON</button>
+        <label class="btn ghost">⬆️ Import JSON<input id="importHist" type="file" accept="application/json" style="display:none"></label>
+      </div>
+      <div id="chatLog" class="chat-log" aria-live="polite"></div>
+      <h3>Archiwum</h3>
+      <div id="chatHistory" class="chat-archive"></div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-projects">
+    <div class="grid">
+      <div class="card">
+        <h2>📁 Projekty (kategorie + hash)</h2>
+        <div class="row">
+          <input id="pName" placeholder="Nazwa" />
+          <input id="pVer" placeholder="Wersja" value="1.0.0" style="width:120px"/>
+          <input id="pEntry" placeholder="Entry (URL lub /relatywna)" style="min-width:260px"/>
+          <select id="pCat" title="Kategoria">
+            <option value="game">game</option>
+            <option value="app">app</option>
+            <option value="film">film</option>
+            <option value="other" selected>other</option>
+          </select>
+          <label><input id="pLicReq" type="checkbox"> Licencja wymagana</label>
+          <input id="pTags" placeholder="tag1,tag2" style="min-width:140px"/>
+        </div>
+        <label>Assets (JSON: <code>{src, expectedLength?, sha256?, note?}</code>)</label>
+        <textarea id="pAssets" placeholder='[{"src":"https://cdn/asset.bin","expectedLength":12345,"sha256":"abcdef..."}]'></textarea>
+        <div class="row">
+          <button id="btnSaveP" class="btn">💾 Zapisz/Update</button>
+          <button id="btnImportP" class="btn ghost">⬆️ Import JSON</button>
+          <button id="btnExportP" class="btn ghost">⬇️ Export JSON</button>
+          <input id="delId" placeholder="id do usunięcia" style="width:180px"/>
+          <button id="btnDelP" class="btn ghost">🗑️ Usuń</button>
+        </div>
+
+        <h3>🔐 Lokalny SHA-256 (bez wysyłki pliku)</h3>
+        <div class="row">
+          <input type="file" id="fHash" />
+          <button id="btnHash" class="btn ghost">Oblicz SHA-256</button>
+        </div>
+        <pre id="outHash" class="mono"></pre>
+
+        <pre id="outP" class="mono"></pre>
+      </div>
+
+      <div class="card">
+        <h2>Lista / Filtr / Uruchom / Integrit-check</h2>
+        <div class="row">
+          <button id="btnListP" class="btn ghost">🔄 Odśwież listę</button>
+          <select id="catFilter" title="Filtr kategorii">
+            <option value="">(wszystko)</option>
+            <option value="game">game</option>
+            <option value="app">app</option>
+            <option value="film">film</option>
+            <option value="other">other</option>
+          </select>
+          <select id="selProject" style="min-width:240px"></select>
+          <input id="licInput" placeholder="Licencja (jeśli wymagana)" style="min-width:240px"/>
+        </div>
+        <div class="row">
+          <button id="btnRun" class="btn">▶️ Otwórz</button>
+          <button id="btnVerifyHead" class="btn ghost">🧪 Verify (HEAD)</button>
+          <button id="btnVerifyHash" class="btn ghost">🧪 Deep Verify (HASH)</button>
+        </div>
+        <table class="table" id="tblP"><thead><tr><th>ID</th><th>Nazwa</th><th>Wersja</th><th>Kategoria</th><th>License?</th><th>Entry</th></tr></thead><tbody></tbody></table>
+        <pre id="outVerify" class="mono"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-automation">
+    <div class="grid">
+      <div class="card">
+        <h2>⚡ Automation Status</h2>
+        <table class="kvs" id="autoTable">
+          <tr><td>Wersja</td><td id="ver">—</td></tr>
+          <tr><td>Cron (ostatni)</td><td id="cron">—</td></tr>
+          <tr><td>ENV → Email</td><td id="envEmail">—</td></tr>
+          <tr><td>ENV → License</td><td id="envLic">—</td></tr>
+          <tr><td>ENV → Forward</td><td id="envFwd">—</td></tr>
+          <tr><td>Overrides</td><td id="ovr">—</td></tr>
+          <tr><td>Effective flags</td><td id="eff">—</td></tr>
+          <tr><td>Liczniki</td><td id="cnt">—</td></tr>
+        </table>
+        <div class="row" style="margin-top:.5rem">
+          <label><input type="checkbox" id="swEmail"/> Auto Email</label>
+          <label><input type="checkbox" id="swLic"/> Auto License</label>
+          <label><input type="checkbox" id="swFwd"/> Forward ERP/CRM</label>
+          <button id="btnSaveAuto" class="btn">Zapisz</button>
+        </div>
+        <div class="row" style="margin-top:.5rem">
+          <input id="testEmailTo" placeholder="test@adres.com"/>
+          <button id="btnTestEmail" class="btn ghost">Test email</button>
+          <button id="btnTestForward" class="btn ghost">Test forward</button>
+          <button id="btnCron" class="btn">Ping cron</button>
+        </div>
+        <pre id="autoOut" class="mono small"></pre>
+      </div>
+
+      <div class="card">
+        <h2>🗄️ Logi (ostatnie)</h2>
+        <div class="row">
+          <button class="btn ghost" data-list="orders">Zamówienia</button>
+          <button class="btn ghost" data-list="invoices">Faktury</button>
+          <button class="btn ghost" data-list="subs">Suby</button>
+          <button class="btn ghost" data-list="emails">Maile</button>
+          <button class="btn ghost" data-list="licenses">Licencje</button>
+          <button class="btn ghost" data-list="events">Stripe events</button>
+          <input id="listLimit" type="number" min="5" value="25" style="max-width:100px"/>
+        </div>
+        <pre id="listOut" class="mono small"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="tab" id="tab-admin">
+    <div class="card">
+      <h2>🔐 Admin</h2>
+      <div class="row">
+        <button id="btnLogout" class="btn ghost">Wyloguj</button>
+        <a class="btn ghost" href="/version">/version</a>
+        <a class="btn ghost" href="/robots.txt">/robots.txt</a>
+      </div>
+    </div>
+  </section>
 </main>
 
 <script>
+/* ===== nav ===== */
 const tabs=[...document.querySelectorAll(".tab-btn")];
-const sections={home:tab("home"),chat:tab("chat"),projects:tab("projects"),files:tab("files"),tools:tab("tools"),billing:tab("billing"),automation:tab("automation"),admin:tab("admin")};
+const sections={home:tab("home"),chat:tab("chat"),projects:tab("projects"),automation:tab("automation"),admin:tab("admin")};
 function tab(id){return document.getElementById("tab-"+id)}
 tabs.forEach(btn=>btn.dataset.tab && btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active")); (sections[btn.dataset.tab]||sections.home).classList.add("active");}));
-const themeBtn=document.getElementById("themeToggle"), logoImg=document.getElementById("logoImg");
-themeBtn.onclick=()=>{document.body.classList.toggle("light");const L=document.body.classList.contains("light");logoImg.src=L?"/logo-light.svg":"/logo-dark.svg";localStorage.setItem("theme",L?"light":"dark");};
-if(localStorage.getItem("theme")==="light"){document.body.classList.add("light"); logoImg.src="/logo-light.svg";}
 
-/* ==== CHAT: historia + TTS + STT + sync KV ==== */
+/* ===== Home health ===== */
+document.getElementById("btnHealth").onclick=async()=>{ const r=await fetch("/healthz"); document.getElementById("outHealth").textContent=await r.text(); };
+
+/* ===== Automation UI ===== */
+async function loadAutomation(){
+  const r = await fetch("/api/admin/automation"); const j = await r.json();
+  if(!j.ok) throw new Error(j.error||"Automation error");
+  const pretty = (o)=> typeof o==="object" ? JSON.stringify(o) : String(o);
+  document.getElementById("ver").textContent = j.version;
+  document.getElementById("cron").textContent = j.lastCron ? new Date(j.lastCron.now||j.lastCron.ts||Date.now()).toLocaleString() : "—";
+  document.getElementById("envEmail").textContent = String(j.env.email);
+  document.getElementById("envLic").textContent = String(j.env.license);
+  document.getElementById("envFwd").textContent = String(j.env.forward);
+  document.getElementById("ovr").textContent = pretty(j.overrides);
+  document.getElementById("eff").textContent = pretty(j.flags);
+  document.getElementById("cnt").textContent = pretty(j.counts);
+  document.getElementById("swEmail").checked = !!j.flags.email;
+  document.getElementById("swLic").checked = !!j.flags.license;
+  document.getElementById("swFwd").checked = !!j.flags.forward;
+  return j;
+}
+document.getElementById("btnSaveAuto").onclick=async()=>{
+  const body={ auto_email: document.getElementById("swEmail").checked, auto_license: document.getElementById("swLic").checked, forward: document.getElementById("swFwd").checked };
+  const r=await fetch("/api/admin/automation",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});
+  document.getElementById("autoOut").textContent=await r.text(); await loadAutomation();
+};
+document.getElementById("btnTestEmail").onclick=async()=>{
+  const to=document.getElementById("testEmailTo").value.trim(); if(!to) return alert("Podaj adres");
+  const r=await fetch("/api/admin/test/email",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({to})});
+  document.getElementById("autoOut").textContent=await r.text();
+};
+document.getElementById("btnTestForward").onclick=async()=>{
+  const r=await fetch("/api/admin/test/forward",{method:"POST"}); document.getElementById("autoOut").textContent=await r.text();
+};
+document.getElementById("btnCron").onclick=async()=>{
+  const r=await fetch("/api/admin/trigger/cron",{method:"POST"}); document.getElementById("autoOut").textContent=await r.text(); await loadAutomation();
+};
+[...document.querySelectorAll('[data-list]')].forEach(btn=>{
+  btn.onclick=async()=>{
+    const type=btn.getAttribute("data-list"); const limit=parseInt(document.getElementById("listLimit").value||"25",10);
+    const r=await fetch(`/api/admin/list?type=${encodeURIComponent(type)}&limit=${limit}`);
+    document.getElementById("listOut").textContent=await r.text();
+  };
+});
+loadAutomation().catch(()=>{});
+
+/* ===== Chat: historia + TTS + STT + sync + import/eksport ===== */
 (function(){
-  const LS_KEY = "qd.chat.history.v2";
+  const LS_KEY = "qd.chat.history.v3";
   const chatForm = document.getElementById("chatForm");
   const chatInput = document.getElementById("chatInput");
   const chatLog = document.getElementById("chatLog");
@@ -97,40 +279,27 @@ if(localStorage.getItem("theme")==="light"){document.body.classList.add("light")
   const syncToggle = document.getElementById("syncToggle");
   const syncNow = document.getElementById("syncNow");
   const clearHist = document.getElementById("clearHist");
+  const exportHist = document.getElementById("exportHist");
+  const importHist = document.getElementById("importHist");
   const sttBtn = document.getElementById("sttBtn");
-  const sendBtn = document.getElementById("sendBtn");
-
-  // TTS controls
   const langSel = document.getElementById("langSel");
   const voiceSel = document.getElementById("voiceSel");
   const rate = document.getElementById("rate");
   const pitch = document.getElementById("pitch");
 
-  // Helpers
   function loadLS(){ try{ return JSON.parse(localStorage.getItem(LS_KEY)||"[]"); }catch{ return [] } }
   function saveLS(list){ localStorage.setItem(LS_KEY, JSON.stringify(list.slice(-1000))); }
   function rowHTML(msg){
     const safe = (msg.text||"").replace(/[<>&]/g, s=>({ "<":"&lt;", ">":"&gt;", "&":"&amp;" }[s]));
-    return `
-      <div class="bubble ${msg.role}">
-        <div class="bubble-inner">
-          <span class="bubble-text">${safe}</span>
-          <button class="speak" title="Odsłuchaj" data-text="${encodeURIComponent(msg.text||"")}">🔊</button>
-        </div>
-        <div class="meta">${new Date(msg.ts||Date.now()).toLocaleString()}</div>
-      </div>`;
+    return `<div class="bubble ${msg.role}"><div class="bubble-inner"><span class="bubble-text">${safe}</span><button class="speak" data-text="${encodeURIComponent(msg.text||"")}">🔊</button></div><div class="meta">${new Date(msg.ts||Date.now()).toLocaleString()}</div></div>`;
   }
   function render(where, list){
     where.innerHTML = list.map(rowHTML).join("");
-    where.querySelectorAll(".speak").forEach(btn=>{
-      btn.onclick = (e)=>{ e.preventDefault(); speak(decodeURIComponent(btn.dataset.text)); };
-    });
+    where.querySelectorAll(".speak").forEach(btn=>{ btn.onclick=(e)=>{ e.preventDefault(); speak(decodeURIComponent(btn.dataset.text)); }; });
     where.scrollTop = where.scrollHeight;
   }
   function mergeByKey(a,b){
-    const key = (x)=>`${x.role}|${x.ts}|${x.text}`;
-    const map = new Map(a.map(x=>[key(x),x]));
-    for(const x of b) map.set(key(x),x);
+    const key = (x)=>`${x.role}|${x.ts}|${x.text}`; const map=new Map(a.map(x=>[key(x),x])); for(const x of b) map.set(key(x),x);
     return Array.from(map.values()).sort((x,y)=>x.ts-y.ts).slice(-1000);
   }
 
@@ -138,119 +307,141 @@ if(localStorage.getItem("theme")==="light"){document.body.classList.add("light")
   function populateVoices(){
     const wantLang = langSel.value;
     const voices = (speechSynthesis.getVoices?.()||[]).filter(v=>v.lang?.startsWith(wantLang.slice(0,2)));
-    voiceSel.innerHTML = "";
-    voices.forEach(v=>{
-      const o=document.createElement("option"); o.value=v.name; o.textContent=`${v.name} (${v.lang})`; voiceSel.appendChild(o);
-    });
+    voiceSel.innerHTML = ""; voices.forEach(v=>{ const o=document.createElement("option"); o.value=v.name; o.textContent=`${v.name} (${v.lang})`; voiceSel.appendChild(o); });
     if (!voiceSel.value && voices[0]) voiceSel.value = voices[0].name;
   }
   function speak(text){
     try{
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = langSel.value;
-      const match = (speechSynthesis.getVoices?.()||[]).find(v=>v.name===voiceSel.value);
-      if (match) u.voice = match;
+      const u = new SpeechSynthesisUtterance(text); u.lang = langSel.value;
+      const match = (speechSynthesis.getVoices?.()||[]).find(v=>v.name===voiceSel.value); if (match) u.voice = match;
       u.rate = parseFloat(rate.value||"1"); u.pitch = parseFloat(pitch.value||"1");
-      speechSynthesis.cancel();
-      speechSynthesis.speak(u);
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
     }catch(e){}
   }
-  if ("speechSynthesis" in window){
-    populateVoices();
-    window.speechSynthesis.onvoiceschanged = populateVoices;
-    langSel.onchange = populateVoices;
-  } else {
-    voiceSel.disabled = true; langSel.disabled = true;
-  }
+  if ("speechSynthesis" in window){ populateVoices(); window.speechSynthesis.onvoiceschanged = populateVoices; langSel.onchange = populateVoices; } else { voiceSel.disabled = true; langSel disabled; }
 
-  // STT (jeśli dostępne)
+  // STT
   let rec=null, recActive=false;
   if ("webkitSpeechRecognition" in window){
-    const SR = window.webkitSpeechRecognition;
-    rec = new SR(); rec.lang = "pl-PL"; rec.continuous = false; rec.interimResults = false;
-    rec.onresult = (e)=>{ const t=[...e.results].map(r=>r[0].transcript).join(" "); chatInput.value = t; };
-    rec.onend = ()=>{ recActive=false; sttBtn.classList.remove("active"); };
-    sttBtn.onclick = ()=>{
-      if (recActive){ rec.stop(); return; }
-      rec.lang = (langSel.value || "pl-PL");
-      recActive=true; sttBtn.classList.add("active"); rec.start();
-    };
-  } else {
-    sttBtn.disabled = true;
-  }
+    const SR = window.webkitSpeechRecognition; rec = new SR(); rec.lang="pl-PL"; rec.continuous=false; rec.interimResults=false;
+    rec.onresult=(e)=>{ const t=[...e.results].map(r=>r[0].transcript).join(" "); chatInput.value=t; };
+    rec.onend=()=>{ recActive=false; sttBtn.classList.remove("active"); };
+    sttBtn.onclick=()=>{ if(recActive){rec.stop();return;} rec.lang=(langSel.value||"pl-PL"); recActive=true; sttBtn.classList.add("active"); rec.start(); };
+  } else { sttBtn.disabled=true; }
 
   // KV Sync
-  async function kvFetch(){
-    try{ const r=await fetch("/api/chat/history"); const j=await r.json(); if(!j.ok) throw new Error(j.error||"KV error"); return Array.isArray(j.items)?j.items:[]; }
-    catch{ return []; }
-  }
-  async function kvSave(list){ try{
-    await fetch("/api/chat/history",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({mode:"merge",items:list})});
-  }catch{} }
+  async function kvFetch(){ try{ const r=await fetch("/api/chat/history"); const j=await r.json(); return j.ok? (j.items||[]) : []; }catch{ return []; } }
+  async function kvSave(list){ try{ await fetch("/api/chat/history",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({mode:"merge",items:list})}); }catch{} }
   async function kvClear(){ try{ await fetch("/api/chat/history",{method:"DELETE"}); }catch{} }
 
-  // State & wiring
-  function push(role, text){
-    const item = { role, text, ts: Date.now() };
-    const cur = loadLS().concat([item]); saveLS(cur);
-    render(chatLog, [item]);
-    render(chatHistory, cur);
-    if (syncToggle.checked && navigator.onLine){ kvSave([item]); }
-    return item;
+  function push(role,text){
+    const item={role,text,ts:Date.now()}; const cur=(loadLS()).concat([item]); saveLS(cur);
+    render(chatLog,[item]); render(chatHistory,cur);
+    if(syncToggle.checked && navigator.onLine) kvSave([item]); return item;
   }
 
-  // Start: merge LS + KV
-  (async ()=>{
-    const ls = loadLS();
-    let merged = ls;
-    if (syncToggle.checked){
-      const kv = await kvFetch();
-      merged = mergeByKey(ls, kv);
-      saveLS(merged);
-      await kvSave(merged); // wyrównaj na serwerze
-    }
+  (async ()=>{ const ls=loadLS(); let merged=ls;
+    if(syncToggle.checked){ const kv=await kvFetch(); merged=mergeByKey(ls,kv); saveLS(merged); await kvSave(merged); }
     render(chatHistory, merged);
   })();
 
-  chatForm.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-    const text = (chatInput.value||"").trim(); if(!text) return;
-    const m = push("user", text);
-    chatInput.value = "";
-    // Hook pod Twoją odpowiedź bota: wywołaj window.addBotMessage(...)
-    // żeby od razu trafiło do historii + TTS:
-    // Tu przykładowo echo:
-    const botText = "✔️ Odebrane: " + text;
-    window.addBotMessage(botText);
-    speak(botText);
-  });
+  chatForm.addEventListener("submit",(e)=>{ e.preventDefault(); const text=(chatInput.value||"").trim(); if(!text) return; push("user",text); chatInput.value=""; const bot="✔️ Odebrane: "+text; push("assistant",bot); speak(bot); });
+  syncNow.onclick=async()=>{ const ls=loadLS(); const kv=await kvFetch(); const merged=mergeByKey(ls,kv); saveLS(merged); await kvSave(merged); render(chatHistory,merged); };
+  clearHist.onclick=async()=>{ if(!confirm("Wyczyścić lokalną i serwerową historię?")) return; localStorage.removeItem(LS_KEY); render(chatLog,[]); render(chatHistory,[]); await kvClear(); };
 
-  window.addBotMessage = function(text){
-    const item = { role:"assistant", text, ts: Date.now() };
-    const cur = loadLS().concat([item]); saveLS(cur);
-    render(chatLog, [item]); render(chatHistory, cur);
-    if (syncToggle.checked && navigator.onLine){ kvSave([item]); }
+  exportHist.onclick=()=>{ const data=localStorage.getItem(LS_KEY)||"[]"; const blob=new Blob([data],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="chat-history.json"; a.click(); URL.revokeObjectURL(a.href); };
+  importHist.onchange=async(e)=>{ const f=e.target.files?.[0]; if(!f) return; const text=await f.text(); let items=[]; try{ items=JSON.parse(text);}catch{ return alert("Zły JSON"); }
+    await fetch("/api/chat/history",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({mode:"replace",items})});
+    localStorage.setItem(LS_KEY, JSON.stringify(items.slice(-1000))); render(chatHistory,items);
   };
-
-  syncNow.onclick = async ()=>{
-    const ls = loadLS();
-    const kv = await kvFetch();
-    const merged = mergeByKey(ls, kv);
-    saveLS(merged); await kvSave(merged);
-    render(chatHistory, merged);
-  };
-
-  clearHist.onclick = async ()=>{
-    if (!confirm("Wyczyścić lokalną i serwerową historię?")) return;
-    localStorage.removeItem(LS_KEY);
-    render(chatLog, []); render(chatHistory, []);
-    await kvClear();
-  };
-
-  // Głośnik wstawiamy per-bubble (render już podpiął)
 })();
-</script>
 
-<!-- Sekcja AUTOMATION z poprzedniej wersji — zostaje bez zmian -->
+/* ===== Projects UI ===== */
+(function(){
+  const el=(id)=>document.getElementById(id);
+  const pName=el("pName"), pVer=el("pVer"), pEntry=el("pEntry"), pCat=el("pCat"), pLicReq=el("pLicReq"), pTags=el("pTags"), pAssets=el("pAssets");
+  const outP=el("outP"), tbl=el("tblP").querySelector("tbody"), sel=el("selProject"), licInput=el("licInput"), outVerify=el("outVerify");
+  const catFilter=el("catFilter");
+
+  async function list(){
+    const cat = catFilter.value || "";
+    const r=await fetch("/api/projects"+(cat?`?category=${encodeURIComponent(cat)}`:"")); const j=await r.json(); if(!j.ok){ outP.textContent=JSON.stringify(j,null,2); return; }
+    tbl.innerHTML=""; sel.innerHTML="";
+    j.items.forEach(p=>{
+      const tr=document.createElement("tr");
+      tr.innerHTML=`<td>${p.id}</td><td>${p.name}</td><td>${p.version}</td><td>${p.category}</td><td>${p.licenseRequired?"✔️":"—"}</td><td>${p.entry}</td>`;
+      tbl.appendChild(tr);
+      const o=document.createElement("option"); o.value=p.id; o.textContent=`${p.name} (${p.category})`; sel.appendChild(o);
+    });
+    outP.textContent=`Projekty: ${j.items.length}`+(cat?` (filter: ${cat})`:"");
+  }
+  el("btnListP").onclick=list; catFilter.onchange=list;
+
+  el("btnSaveP").onclick=async()=>{
+    let assets=[]; const raw=(pAssets.value||"").trim(); if(raw){ try{ assets=JSON.parse(raw); }catch{ return alert("Assets: zły JSON"); } }
+    const body={ name:pName.value.trim(), version:pVer.value.trim()||"1.0.0", entry:pEntry.value.trim()||"/", category:pCat.value, licenseRequired:pLicReq.checked, tags:(pTags.value||"").split(",").map(s=>s.trim()).filter(Boolean), assets };
+    const r=await fetch("/api/projects",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});
+    outP.textContent=await r.text(); await list();
+  };
+  el("btnDelP").onclick=async()=>{
+    const id=(el("delId").value||sel.value||"").trim(); if(!id) return alert("Podaj id");
+    const r=await fetch(`/api/projects/${encodeURIComponent(id)}`,{method:"DELETE"}); outP.textContent=await r.text(); await list();
+  };
+  el("btnVerifyHead").onclick=async()=>{
+    const id=sel.value||""; if(!id) return alert("Wybierz projekt");
+    const r=await fetch(`/api/projects/integrity?id=${encodeURIComponent(id)}&mode=head`); outVerify.textContent=await r.text();
+  };
+  el("btnVerifyHash").onclick=async()=>{
+    const id=sel.value||""; if(!id) return alert("Wybierz projekt");
+    const r=await fetch(`/api/projects/integrity?id=${encodeURIComponent(id)}&mode=hash`); outVerify.textContent=await r.text();
+  };
+  el("btnRun").onclick=async()=>{
+    const id=sel.value||""; if(!id) return alert("Wybierz projekt");
+    const pj=await (await fetch(`/api/projects/${encodeURIComponent(id)}`)).json(); if(!pj.ok) return alert("Brak projektu");
+    if(pj.project.licenseRequired){
+      const lic = (localStorage.getItem("qd.license."+id) || licInput.value || "").trim();
+      if(!lic) return alert("Wymagana licencja");
+      const v = await (await fetch(`/api/license/verify?license=${encodeURIComponent(lic)}`)).json();
+      if(!v.ok) return alert("Zła licencja");
+      localStorage.setItem("qd.license."+id, lic);
+    }
+    const url = pj.project.entry.startsWith("http") ? pj.project.entry : pj.project.entry.replace(/^\/+/,"/");
+    window.open(url, "_blank");
+  };
+
+  // Import/Export projektów
+  el("btnExportP").onclick=async()=>{
+    const cat = catFilter.value || "";
+    const r=await fetch("/api/projects"+(cat?`?category=${encodeURIComponent(cat)}`:"")); const j=await r.json();
+    const blob=new Blob([JSON.stringify(j.items||[],null,2)],{type:"application/json"});
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="projects.json"; a.click(); URL.revokeObjectURL(a.href);
+  };
+  el("btnImportP").onclick=()=>{
+    const input=document.createElement("input"); input.type="file"; input.accept="application/json";
+    input.onchange=async(e)=>{ const f=e.target.files?.[0]; if(!f) return; const text=await f.text(); let items=[]; try{ items=JSON.parse(text);}catch{ return alert("Zły JSON"); }
+      const r=await fetch("/api/projects",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({items})}); outP.textContent=await r.text(); await list();
+    };
+    input.click();
+  };
+
+  // Lokalny SHA-256 bez wysyłki pliku
+  async function fileSha256(file){
+    const buf = await file.arrayBuffer();
+    const digest = await crypto.subtle.digest("SHA-256", buf);
+    const hex = [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,"0")).join("");
+    return { hex, size: file.size, name: file.name };
+  }
+  el("btnHash").onclick=async()=>{
+    const f=el("fHash").files?.[0]; if(!f) return alert("Wybierz plik");
+    const r=await fileSha256(f);
+    el("outHash").textContent = `name: ${r.name}\nsize: ${r.size}\nsha256: ${r.hex}\n\nWklej te wartości do assets → expectedLength / sha256.`;
+  };
+
+  list().catch(()=>{});
+})();
+
+/* ===== Admin ===== */
+document.getElementById("btnLogout").onclick=()=>{ location.href="/logout"; };
+</script>
 </body>
 </html>
