@@ -1,1 +1,14 @@
-
+{
+  "name": "CH-Quantum Dashboard",
+  "short_name": "QuantumDash",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0f14",
+  "theme_color": "#0b0f14",
+  "icons": [
+    { "src": "/icon-dark-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-dark-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-light-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icon-light-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
