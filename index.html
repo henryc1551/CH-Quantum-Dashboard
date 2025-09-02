@@ -1,16 +1,257 @@
-
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <title>CH-Quantum Dashboard • WayPro</title>
+  <link rel="manifest" href="/manifest.webmanifest"/>
+  <link rel="stylesheet" href="/style.css"/>
+  <link rel="icon" href="/icon-dark-192.png" sizes="192x192">
+  <meta name="theme-color" content="#0b0f14">
 </head>
 <body>
-    <div class="container">
-        <h1>Quantum Dashboard działa!</h1>
-        <p>Witamy w Twoim nowym dashboardzie.</p>
+<header class="topbar">
+  <div class="brand">
+    <img src="/logo-dark.svg" alt="Quantum Logo" class="logo" id="logoImg"/>
+    CH-Quantum <span class="badge">WayPro</span>
+  </div>
+  <nav class="nav">
+    <button id="themeToggle" class="tab-btn" title="Dark/Light">🌓</button>
+    <button class="tab-btn" data-tab="home">🏠</button>
+    <button class="tab-btn" data-tab="chat">💬</button>
+    <button class="tab-btn" data-tab="projects">📁</button>
+    <button class="tab-btn" data-tab="files">🗂️</button>
+    <button class="tab-btn" data-tab="tools">🧰</button>
+    <button class="tab-btn" data-tab="admin">⚙️</button>
+  </nav>
+</header>
+
+<main>
+  <!-- HOME -->
+  <section class="tab active" id="tab-home">
+    <div class="card">
+      <h2>🚀 Start</h2>
+      <p>Jeśli to widzisz – serwer i UI stoją. Poniżej szybkie testy.</p>
+      <div class="row">
+        <button id="btnHealth" class="btn">Sprawdź /healthz</button>
+        <button id="btnVersion" class="btn">Wersja</button>
+      </div>
+      <pre id="outHome" class="mono small"></pre>
     </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>❇️ PWA</h3>
+        <p>Dodaj do ekranu głównego (działa offline).</p>
+        <button id="btnInstall" class="btn">Dodaj jako aplikację</button>
+        <p class="muted small" id="pwaHint">Jeśli przycisk nie działa – przeglądarka jeszcze nie zaproponowała instalacji.</p>
+      </div>
+      <div class="card">
+        <h3>🌐 Linki</h3>
+        <div class="row wrap">
+          <a class="chip" href="/healthz" target="_blank">/healthz</a>
+          <a class="chip" href="/version" target="_blank">/version</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAT -->
+  <section class="tab" id="tab-chat">
+    <div class="card">
+      <h2>💬 Chat (Echo)</h2>
+      <div class="row">
+        <input id="chatMsg" placeholder="Napisz wiadomość…"/>
+        <button id="chatSend" class="btn">Wyślij</button>
+        <label class="switch"><input type="checkbox" id="chatTTS" checked/><span>Auto-TTS</span></label>
+      </div>
+      <div id="chatLog" class="log mono"></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="tab" id="tab-projects">
+    <div class="card">
+      <h2>📁 Projekty (offline-safe)</h2>
+      <div class="row">
+        <input id="projName" placeholder="Nazwa projektu"/>
+        <button id="projAdd" class="btn">Dodaj</button>
+      </div>
+      <div id="projList" class="list"></div>
+      <div class="row">
+        <button id="projExport" class="btn ghost">Eksport (JSON)</button>
+        <button id="projZip" class="btn">Eksport ZIP</button>
+        <input type="file" id="projImport" accept="application/json"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILES -->
+  <section class="tab" id="tab-files">
+    <div class="card">
+      <h2>🗂️ Pliki</h2>
+      <div class="row">
+        <select id="fileProject"></select>
+        <input id="fileName" placeholder="np. index.html"/>
+        <button id="fileNew" class="btn">Nowy</button>
+        <button id="fileOpen" class="btn">Otwórz</button>
+        <button id="fileDel" class="btn danger">Usuń</button>
+      </div>
+      <textarea id="fileContent" rows="12" class="mono" placeholder="Zawartość pliku…"></textarea>
+      <div class="row">
+        <button id="fileSave" class="btn primary">Zapisz</button>
+        <button id="filePreview" class="btn ghost">Podgląd</button>
+      </div>
+      <iframe id="filePreviewFrame" class="preview hidden"></iframe>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="tab" id="tab-tools">
+    <div class="grid">
+      <div class="card">
+        <h2>🧰 Startery 1-klik</h2>
+        <div class="row wrap">
+          <button class="btn" data-starter="Landing">Landing</button>
+          <button class="btn" data-starter="UltraRealFootball">UltraRealFootball</button>
+          <button class="btn" data-starter="RocketChat">RocketChat</button>
+          <button class="btn" data-starter="Portfolio">Portfolio</button>
+        </div>
+        <p class="muted small">Startery generują pliki w wybranym projekcie (lokalnie).</p>
+      </div>
+
+      <div class="card">
+        <h2>🔗 UTM + Short</h2>
+        <input id="utmBase" placeholder="https://example.com"/>
+        <div class="row wrap">
+          <input id="utmSource" placeholder="utm_source"/>
+          <input id="utmMedium" placeholder="utm_medium"/>
+          <input id="utmCampaign" placeholder="utm_campaign"/>
+          <input id="utmTerm" placeholder="utm_term"/>
+          <input id="utmContent" placeholder="utm_content"/>
+        </div>
+        <div class="row">
+          <button id="utmGen" class="btn">Generuj UTM</button>
+          <button id="utmShort" class="btn ghost">Skróć (lokalnie)</button>
+        </div>
+        <input id="utmOut" class="mono" readonly/>
+      </div>
+
+      <div class="card">
+        <h2>📧 Newsletter (demo)</h2>
+        <div class="row wrap">
+          <input id="emTo" placeholder="email1, email2"/>
+          <input id="emSubj" placeholder="Temat"/>
+        </div>
+        <textarea id="emHtml" rows="6" class="mono" placeholder="<h1>Witaj!</h1>"></textarea>
+        <button id="emSend" class="btn">Wyślij (stub)</button>
+        <pre id="emOut" class="mono small"></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section class="tab" id="tab-admin">
+    <div class="card">
+      <h2>⚙️ Admin / Status</h2>
+      <div class="row wrap">
+        <a class="chip" target="_blank" href="/healthz">/healthz</a>
+        <a class="chip" target="_blank" href="/version">/version</a>
+      </div>
+      <p class="muted small">Sekrety/ENV ustawiasz w Deno Dashboard (Settings → Environment Variables / Domains).</p>
+    </div>
+  </section>
+</main>
+
+<script>
+/* Tabs */
+const tabs=[...document.querySelectorAll(".tab-btn")];
+const sections={home:tab("home"),chat:tab("chat"),projects:tab("projects"),files:tab("files"),tools:tab("tools"),admin:tab("admin")};
+function tab(id){return document.getElementById("tab-"+id)}
+tabs.forEach(btn=>btn.dataset.tab && btn.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active")); sections[btn.dataset.tab].classList.add("active"); if(btn.dataset.tab==="chat") document.getElementById("chatMsg").focus();}));
+
+/* Theme toggle + logo swap */
+const themeBtn=document.getElementById("themeToggle"), logoImg=document.getElementById("logoImg");
+themeBtn.onclick=()=>{document.body.classList.toggle("light");const L=document.body.classList.contains("light");logoImg.src=L?"/logo-light.svg":"/logo-dark.svg";localStorage.setItem("theme",L?"light":"dark");};
+if(localStorage.getItem("theme")==="light"){document.body.classList.add("light"); logoImg.src="/logo-light.svg";}
+
+/* HOME */
+const outHome = document.getElementById("outHome");
+document.getElementById("btnHealth").onclick = async()=>{outHome.textContent = await fetch("/healthz").then(r=>r.text()).catch(String)};
+document.getElementById("btnVersion").onclick = async()=>{outHome.textContent = await fetch("/version").then(r=>r.text()).catch(String)};
+
+/* PWA */
+let deferredPrompt; window.addEventListener("beforeinstallprompt",(e)=>{e.preventDefault(); deferredPrompt=e;});
+document.getElementById("btnInstall").onclick=async()=>{ if(!deferredPrompt) return alert("Spróbuj później."); deferredPrompt.prompt(); deferredPrompt=null; };
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("/sw.js").catch(()=>{}); }
+
+/* Chat (local echo; opcjonalnie /api/echo) */
+const chatLog = document.getElementById("chatLog"), chatTTS=document.getElementById("chatTTS");
+function say(t){ try{ speechSynthesis.speak(new SpeechSynthesisUtterance(t)); }catch{} }
+function logChat(who,msg){ const d=document.createElement("div"); d.className="chatline"; d.innerHTML=`<span class="who">${who}</span><span class="msg">${msg}</span>`; chatLog.appendChild(d); chatLog.scrollTop=1e9; }
+document.getElementById("chatSend").onclick=async()=>{
+  const m=document.getElementById("chatMsg").value.trim(); if(!m) return;
+  document.getElementById("chatMsg").value=""; logChat("Ty", m);
+  // Jeśli chcesz backend: odkomentuj 2 linie niżej i zakomentuj reply=...
+  // const r = await fetch("/api/echo",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({msg:m})}).then(r=>r.json()).catch(()=>({}));
+  // const reply = r?.youSent?.msg ?? "👍 OK";
+  const reply = "👍 OK (local echo)";
+  logChat("AI", reply); if(chatTTS.checked) say(reply);
+};
+
+/* Projects / Files (LocalStorage) */
+const S={read(k,def){try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(def));}catch{return def;}},write(k,v){localStorage.setItem(k,JSON.stringify(v));}};
+const KEY_PROJ="LCQ_PROJ", KEY_FILES="LCQ_FILES";
+function loadProj(){ const list=S.read(KEY_PROJ,[]), box=document.getElementById("projList"), sel=document.getElementById("fileProject"); box.innerHTML=""; sel.innerHTML="";
+  list.forEach(p=>{ const d=document.createElement("div"); d.className="row tight"; d.innerHTML=`<span class="chip">${p.name}</span><button class="btn ghost" data-open="${p.id}">Otwórz</button>`; box.appendChild(d);
+    const opt=document.createElement("option"); opt.value=p.id; opt.textContent=p.name; sel.appendChild(opt); });}
+document.getElementById("projAdd").onclick=()=>{ const name=document.getElementById("projName").value.trim()||("Projekt "+new Date().toLocaleString()); const list=S.read(KEY_PROJ,[]); const id=crypto.randomUUID();
+  list.push({id,name,created:Date.now()}); S.write(KEY_PROJ,list); const files=S.read(KEY_FILES,{}); files[id]=files[id]||{}; S.write(KEY_FILES,files); document.getElementById("projName").value=""; loadProj(); };
+document.getElementById("projList").onclick=(e)=>{const b=e.target.closest("button[data-open]"); if(!b) return; document.getElementById("fileProject").value=b.getAttribute("data-open"); sections.files.classList.add("active"); sections.projects.classList.remove("active");};
+document.getElementById("projExport").onclick=()=>{ const data={projects:S.read(KEY_PROJ,[]),files:S.read(KEY_FILES,{})}; const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="projects-export.json"; a.click(); };
+document.getElementById("projZip").onclick=()=>{ const data={projects:S.read(KEY_PROJ,[]),files:S.read(KEY_FILES,{})}; const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/zip"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="projects.zip"; a.click(); };
+document.getElementById("projImport").onchange=async(e)=>{const f=e.target.files[0]; if(!f) return; const t=await f.text(); const d=JSON.parse(t||"{}"); if(Array.isArray(d.projects)) S.write(KEY_PROJ,d.projects); if(typeof d.files==="object") S.write(KEY_FILES,d.files); loadProj(); alert("Zaimportowano.");};
+
+function currentFilesMap(){ const pid=document.getElementById("fileProject").value; const all=S.read(KEY_FILES,{}); all[pid]=all[pid]||{}; return [pid,all,all[pid]]; }
+document.getElementById("fileNew").onclick=()=>{ document.getElementById("fileName").value ||= "index.html"; document.getElementById("fileContent").value="<!doctype html><h1>Nowy plik</h1>"; };
+document.getElementById("fileOpen").onclick=()=>{ const [pid,all,map]=currentFilesMap(); const name=document.getElementById("fileName").value.trim(); if(!pid||!name) return alert("Wybierz projekt i nazwę pliku"); document.getElementById("fileContent").value = map[name] ?? ""; };
+document.getElementById("fileSave").onclick=()=>{ const [pid,all,map]=currentFilesMap(); const name=document.getElementById("fileName").value.trim(); const content=document.getElementById("fileContent").value; if(!pid||!name) return alert("Wybierz projekt i nazwę pliku"); map[name]=content; all[pid]=map; S.write(KEY_FILES,all); alert("Zapisano."); };
+document.getElementById("fileDel").onclick=()=>{ const [pid,all,map]=currentFilesMap(); const name=document.getElementById("fileName").value.trim(); if(!pid||!name) return; delete map[name]; all[pid]=map; S.write(KEY_FILES,all); document.getElementById("fileContent").value=""; alert("Usunięto."); };
+document.getElementById("filePreview").onclick=()=>{ const html=document.getElementById("fileContent").value; const frame=document.getElementById("filePreviewFrame"); frame.classList.remove("hidden"); const blob=new Blob([html],{type:"text/html"}); frame.src=URL.createObjectURL(blob); };
+
+/* Startery */
+document.querySelectorAll('[data-starter]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const pid=document.getElementById("fileProject").value; if(!pid) return alert("Wybierz projekt (sekcja Pliki).");
+    const name=btn.dataset.starter;
+    const starters={
+      Landing: { "index.html": "<!doctype html><h1>Landing</h1><p>Start here.</p>", "style.css":"body{font-family:system-ui} h1{color:#ff7a00}", "app.js":"console.log('Landing ok')" },
+      UltraRealFootball: { "index.html": "<!doctype html><h1>UltraReal Football</h1><div id=app></div><script src=game.js></script>", "game.js":"console.log('URF init');" },
+      RocketChat: { "index.html": "<!doctype html><h1>RocketChat</h1><div id=chat></div><script>console.log('Chat ready')</script>" },
+      Portfolio: { "index.html": "<!doctype html><h1>Portfolio</h1><p>Witaj!</p>" }
+    };
+    const def=starters[name] || {"index.html":"<h1>Starter</h1>"};
+    const [_,all,map]=currentFilesMap(); for(const [fn,content] of Object.entries(def)) map[fn]=content; S.write(KEY_FILES,all); alert("Wygenerowano starter: "+name);
+  });
+});
+
+/* UTM + Short */
+document.getElementById("utmGen").onclick=()=>{ const base=document.getElementById("utmBase").value.trim(); if(!base) return; const u=new URL(base); const s=id=>document.getElementById(id).value.trim();
+  if(s("utmSource"))u.searchParams.set("utm_source",s("utmSource")); if(s("utmMedium"))u.searchParams.set("utm_medium",s("utmMedium"));
+  if(s("utmCampaign"))u.searchParams.set("utm_campaign",s("utmCampaign")); if(s("utmTerm"))u.searchParams.set("utm_term",s("utmTerm")); if(s("utmContent"))u.searchParams.set("utm_content",s("utmContent"));
+  document.getElementById("utmOut").value=u.toString();
+};
+document.getElementById("utmShort").onclick=()=>{ const full=document.getElementById("utmOut").value||document.getElementById("utmBase").value; if(!full) return; const code=Math.random().toString(36).slice(2,8);
+  const short=location.origin+"/s/"+code; localStorage.setItem("SHORT_"+code, full); document.getElementById("utmOut").value=short+" → "+full;
+};
+
+/* Newsletter demo */
+document.getElementById("emSend").onclick=()=>{ const to=document.getElementById("emTo").value; const subj=document.getElementById("emSubj").value; const html=document.getElementById("emHtml").value;
+  document.getElementById("emOut").textContent=JSON.stringify({queued:true,to,subj,htmlLength:html.length},null,2);
+};
+
+/* Init */
+loadProj();
+</script>
 </body>
 </html>
