@@ -1,118 +1,88 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="auto">
+<html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#101010" />
-  <title>Quantum Dashboard • WayPro v6.2.1</title>
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="icon" href="/logo-light.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/logo-512.png" />
-  <meta name="description" content="Quantum Dashboard • WayPro v6.2.1 — manage projects, files, chat and automation in one place." />
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quantum Edge Hub Supreme — Panel główny</title>
+  <meta name="description" content="Prywatny hub: Assistant (AI+TTS), Projects (R2/S3), Marketing (Ads/Analytics), Admin." />
+  <link rel="stylesheet" href="/style.css" />
   <style>
-    :root {
-      --bg-light: #f9f9f9;
-      --fg-light: #111;
-      --bg-dark: #101010;
-      --fg-dark: #f9f9f9;
-      --accent: #4a90e2;
-    }
-    [data-theme="light"] { background: var(--bg-light); color: var(--fg-light); }
-    [data-theme="dark"] { background: var(--bg-dark); color: var(--fg-dark); }
-    body { margin:0; font-family: system-ui, sans-serif; line-height:1.4; }
-    header.topbar {
-      display:flex; justify-content:space-between; align-items:center;
-      padding:0.5rem 1rem; background:var(--accent); color:#fff;
-    }
-    .brand { display:flex; align-items:center; gap:0.5rem; font-weight:bold; }
-    nav.nav { display:flex; gap:0.5rem; }
-    nav.nav button { background:none; border:none; font-size:1.2rem; cursor:pointer; }
-    nav.nav button.active { background:#fff2; border-radius:8px; }
-    main { padding:1rem; }
-    section { display:block; }
-    section[hidden] { display:none; }
-    .row { display:flex; gap:0.5rem; align-items:center; margin:0.3rem 0; }
-    .grow { flex:1; }
-    .btn { padding:0.3rem 0.8rem; border:none; border-radius:6px; cursor:pointer; background:var(--accent); color:#fff; }
-    .btn.ghost { background:none; border:1px solid var(--accent); color:var(--accent); }
-    .chat-box { border:1px solid #8884; min-height:200px; max-height:300px; overflow:auto; padding:0.5rem; margin-bottom:0.5rem; }
-    .msg { margin-bottom:0.5rem; }
-    .msg.user .who { color:var(--accent); font-weight:bold; }
-    .msg.assistant .who { color:green; font-weight:bold; }
-    .toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:0.5rem 1rem; border-radius:6px; opacity:0; transition:opacity .3s; }
-    .toast.show { opacity:1; }
-    .grid { display:grid; gap:1rem; }
-    .card { border:1px solid #ccc; border-radius:8px; padding:1rem; background:#fff1; }
-    .stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(100px,1fr)); gap:0.5rem; margin-bottom:1rem; }
-    .stats div { background:#8882; border-radius:6px; padding:0.5rem; text-align:center; }
-    .foot { text-align:center; padding:1rem; font-size:0.9rem; opacity:0.6; }
-    .muted { opacity:0.7; font-size:0.9rem; }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial; background:#0a0f1e; color:#e6edff; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
+    header.top { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0; }
+    .brand { font-size: 20px; font-weight: 700; letter-spacing: .2px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:14px; }
+    .card { background:#0d1426; border:1px solid #1b2a4a; border-radius:14px; padding:14px; }
+    .card h3 { margin:0 0 8px; font-size:16px; }
+    .muted { color:#a7b4d0; }
+    .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    input, textarea, button, select { background:#0f1a33; color:#e6edff; border:1px solid #22345c; border-radius:10px; padding:8px 10px; }
+    button { cursor:pointer; }
+    .links a { display:inline-block; margin:4px 6px 0 0; padding:6px 10px; border:1px solid #22345c; border-radius:999px; text-decoration:none; color:#e6edff; }
+    pre { white-space: pre-wrap; background:#0f1422; border:1px solid #233256; border-radius:8px; padding:8px; max-height:260px; overflow:auto; }
+    footer { opacity:.8; font-size:12px; margin-top:18px; }
   </style>
 </head>
-
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <img src="logo-light.svg" alt="Q" width="28" height="28" />
-      <span>Quantum Dashboard • WayPro</span>
-    </div>
-    <nav class="nav">
-      <button class="icon" data-route="home" aria-label="Home" title="Home">🏠</button>
-      <button class="icon" data-route="files" aria-label="Files" title="Files">📄</button>
-      <button class="icon" data-route="chat" aria-label="Chat" title="Chat">💬</button>
-      <button class="icon" data-route="actions" aria-label="Actions" title="Actions">⚡</button>
-      <button class="icon" data-route="settings" aria-label="Settings" title="Settings">⚙️</button>
-    </nav>
-  </header>
+  <div class="wrap">
+    <header class="top">
+      <div class="brand">🚀 Quantum Edge Hub Supreme</div>
+      <nav class="links">
+        <a href="/assistant/">Assistant (AI+TTS)</a>
+        <a href="/projects/">Projects</a>
+        <a href="/marketing/">Marketing</a>
+        <a href="/admin">Admin</a>
+      </nav>
+    </header>
 
-  <main id="app">
-    <!-- HOME -->
-    <section id="panel-home">
-      <h2>Home</h2>
-      <div id="home-summary"></div>
-    </section>
-
-    <!-- FILES -->
-    <section id="panel-files" hidden>
-      <h2>Files</h2>
-      <div id="files-list" class="vspace"></div>
-      <button class="btn" id="add-file">Add file</button>
-    </section>
-
-    <!-- CHAT -->
-    <section id="panel-chat" hidden>
-      <h2>Chat</h2>
-      <div id="chat-box" class="chat-box"></div>
+    <section class="card">
+      <h3>🔑 Szybkie logowanie / rejestracja</h3>
       <div class="row">
-        <input id="chat-input" placeholder="Type message…" class="grow" />
-        <button id="send-msg" class="btn">Send</button>
+        <input id="email" type="email" placeholder="email" />
+        <input id="password" type="password" placeholder="hasło" />
+        <button id="btnRegister">Rejestruj</button>
+        <button id="btnLogin">Zaloguj</button>
+        <button id="btnLogout">Wyloguj</button>
+        <button id="btnWhoami">Kim jestem?</button>
+        <button id="btnBootstrap" title="Utwórz konto owner (jeśli brak)">Bootstrap owner</button>
       </div>
+      <pre id="me" class="muted">–</pre>
     </section>
 
-    <!-- ACTIONS -->
-    <section id="panel-actions" hidden>
-      <h2>Actions / Starters</h2>
-      <div id="starters" class="grid"></div>
-    </section>
+    <div class="grid">
+      <section class="card">
+        <h3>📁 Upload do Storage (R2/S3, presigned PUT)</h3>
+        <div class="row">
+          <input id="file" type="file" />
+          <button id="btnUpload">Wyślij</button>
+        </div>
+        <pre id="ulog" class="muted">–</pre>
+      </section>
 
-    <!-- SETTINGS -->
-    <section id="panel-settings" hidden>
-      <h2>Settings</h2>
-      <label>Theme:
-        <select id="theme-select">
-          <option value="auto">Auto</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-      </label>
-      <p class="muted">Version: 6.2.1</p>
-    </section>
-  </main>
+      <section class="card">
+        <h3>📈 Metryki (wewnętrzne)</h3>
+        <div class="row">
+          <button id="btnMetrics">Odśwież</button>
+          <a class="links" href="/api/health" target="_blank" rel="noopener">/api/health</a>
+        </div>
+        <pre id="metrics" class="muted">–</pre>
+      </section>
 
-  <footer class="foot">© You • All rights reserved.</footer>
+      <section class="card">
+        <h3>🔗 Szybkie skróty</h3>
+        <div class="links">
+          <a href="/assistant/">/assistant/ — czat AI + TTS</a>
+          <a href="/projects/">/projects/ — workspace</a>
+          <a href="/marketing/">/marketing/ — reklamy</a>
+          <a href="/admin">/admin — panel admina</a>
+        </div>
+        <p class="muted" style="margin-top:8px">Po pierwszym deployu dodaj ENV (OpenAI, ElevenLabs, R2/S3 itd.).</p>
+      </section>
+    </div>
 
-  <!-- attach logic -->
-  <script src="app.js?v=6.2.1" defer></script>
+    <footer>© 2025 Henryk — licencja prywatna. All systems go.</footer>
+  </div>
+
+  <script type="module" src="/app.js"></script>
 </body>
 </html>
