@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Projects • Quantum Edge Hub Supreme</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="./projects.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">🧱 Projects Workspace</div>
+  <div class="auth">
+    <a class="badge" href="/">← Panel</a>
+    <a class="badge" href="/dashboard/">Dashboard</a>
+    <a class="badge" href="/marketing/">Marketing</a>
+  </div>
+</header>
+
+<main class="grid">
+  <section class="card">
+    <h3>➕ Utwórz projekt</h3>
+    <div class="row">
+      <input id="pname" placeholder="Nazwa projektu (np. game-2048)" />
+      <button id="btnCreate">Utwórz</button>
+    </div>
+    <pre id="createLog" class="muted">–</pre>
+  </section>
+
+  <section class="card">
+    <h3>📦 Upload plików do projektu</h3>
+    <div class="stack">
+      <input id="pid" placeholder="ID projektu (z listy poniżej)" />
+      <input id="pfile" type="file" />
+      <button id="btnSign">Podpisz & Upload</button>
+      <pre id="upLog" class="muted">–</pre>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>📚 Lista projektów</h3>
+    <div class="row"><button id="btnList" class="badge">Odśwież</button></div>
+    <pre id="plist" class="muted">–</pre>
+  </section>
+
+  <section class="card">
+    <h3>🪞 Podgląd (iframe)</h3>
+    <div class="row">
+      <input id="previewPath" placeholder="/projects/<id>/index.html" />
+      <button id="btnPreview">Podgląd</button>
+    </div>
+    <div id="frameWrap"><iframe id="frame" style="width:100%;height:420px;border:1px solid #243152;border-radius:12px;background:#0a0f1e"></iframe></div>
+  </section>
+</main>
+
+<script type="module" src="./projects.js"></script>
+</body>
+</html>
