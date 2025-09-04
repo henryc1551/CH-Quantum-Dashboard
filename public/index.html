@@ -20,10 +20,15 @@
     @media(min-width:900px){.card.half{grid-column:span 6}}
     button,.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:10px 12px;cursor:pointer}
     .btn.sec{background:#1f1f25;color:var(--fg);border:1px solid #2b2b33}
-    input,textarea{width:100%;background:#101014;color:var(--fg);border:1px solid #26262b;border-radius:10px;padding:10px}
+    input,textarea,select{width:100%;background:#101014;color:var(--fg);border:1px solid #26262b;border-radius:10px;padding:10px}
     .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    pre{background:#0f0f12;border:1px solid #26262b;border-radius:10px;padding:10px;overflow:auto;max-height:220px}
+    pre{background:#0f0f12;border:1px solid #26262b;border-radius:10px;padding:10px;overflow:auto;max-height:260px;white-space:pre-wrap}
     .hidden{display:none}
+    .chatlog{max-height:420px;overflow:auto;background:#0f0f12;border:1px solid #26262b;border-radius:10px;padding:10px}
+    .msg{margin:6px 0;padding:8px 10px;border-radius:10px}
+    .user{background:#1f2533}
+    .assistant{background:#1e222a}
+    .sys{background:#2a1f1f}
   </style>
 </head>
 <body>
@@ -47,7 +52,7 @@
         <input id="pw" type="password" placeholder="hasło…"/>
         <button id="go">Wejdź</button>
       </div>
-      <small class="muted">Uwaga: to tylko blokada UI. Główne uwierzytelnianie: cookie z parametru <code>?token=…</code>.</small>
+      <small class="muted">To tylko blokada UI. Główne uwierzytelnianie: cookie ustawiane po wejściu z parametrem <code>?token=…</code>.</small>
     </div>
 
     <div id="app" class="hidden">
@@ -66,7 +71,7 @@
         </section>
 
         <section class="card half">
-          <h3>🧰 Akcje (asystent)</h3>
+          <h3>🧰 Akcje (asystent – webhook/HEAD/KV)</h3>
           <div class="row">
             <input id="verifyUrl" placeholder="https://… (HEAD)">
             <button id="verifyBtn">Sprawdź HEAD</button>
@@ -80,13 +85,29 @@
         </section>
 
         <section class="card">
-          <h3>💬 Chat (demo pamięci)</h3>
+          <h3>🤝 Czat AI (PRO – multi-provider)</h3>
           <div class="row">
-            <input id="msg" placeholder="Wpisz wiadomość i ENTER">
-            <button id="saveChat">Zapisz do KV</button>
-            <button id="loadChat">Wczytaj z KV</button>
+            <select id="aiProvider">
+              <option value="">(ENV)</option>
+              <option value="anthropic">Anthropic (Claude)</option>
+              <option value="openai">OpenAI</option>
+              <option value="google">Google (Gemini)</option>
+              <option value="mistral">Mistral</option>
+              <option value="openrouter">OpenRouter</option>
+              <option value="ollama">Ollama (lokalnie)</option>
+            </select>
+            <input id="aiModel" placeholder="model (opcjonalnie – można zostawić puste, użyje ENV)">
+            <input id="aiTemp" type="number" step="0.1" min="0" max="2" value="0.2" style="max-width:120px">
           </div>
-          <pre id="log"></pre>
+          <div class="chatlog" id="chatLog"></div>
+          <div class="row">
+            <input id="userMsg" placeholder="Napisz wiadomość i ENTER">
+            <button id="send">Wyślij</button>
+            <button id="clearChat" class="btn sec">Wyczyść</button>
+            <button id="saveAI" class="btn sec">Zapisz do KV</button>
+            <button id="loadAI" class="btn sec">Wczytaj z KV</button>
+            <button id="exportAI" class="btn sec">Export .json</button>
+          </div>
         </section>
       </div>
     </div>
@@ -94,9 +115,7 @@
 
   <script>
     // PWA
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/sw.js").catch(()=>{});
-    }
+    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("/sw.js").catch(()=>{}); }
     let deferredPrompt=null;
     window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; });
     document.getElementById("install").onclick=async()=>{
@@ -104,9 +123,14 @@
       deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null;
     };
 
-    // wersja / health
+    // wersja
     fetch("/version").then(r=>r.json()).then(v=>{
       document.getElementById("ver").textContent = "v"+(v.version||"?");
+      // podpowiedź providera/modelu z ENV:
+      if (v.ai) {
+        if (v.ai.provider) document.getElementById("aiProvider").querySelector(`option[value="${v.ai.provider}"]`)?.setAttribute("selected","selected");
+        if (v.ai.model) document.getElementById("aiModel").placeholder = v.ai.model+" (ENV)";
+      }
     });
 
     // UI lock
@@ -122,18 +146,13 @@
     }
     go.onclick=openIfOk; pw.onkeydown=(e)=>{ if(e.key==="Enter") openIfOk(); };
     if (localStorage.getItem("qdp-ui-ok")==="1") { lock.classList.add("hidden"); app.classList.remove("hidden"); }
+    document.getElementById("logout").onclick=()=>{ localStorage.removeItem("qdp-ui-ok"); location.reload(); };
 
-    // wylogowanie (czyści lokalną zasłonę UI)
-    document.getElementById("logout").onclick=()=>{
-      localStorage.removeItem("qdp-ui-ok"); location.reload();
-    };
-
-    // PROJEKTY – import/export/sync
+    // PROJEKTY
     const list = document.getElementById("list");
     const entry = document.getElementById("entry");
     let projects = [];
-
-    function render() {
+    function renderProjects() {
       list.innerHTML = "";
       projects.forEach((p,i)=>{
         const row = document.createElement("div");
@@ -147,23 +166,21 @@
         list.appendChild(row);
       });
     }
-
-    function saveLocal() { localStorage.setItem("qdp-projects", JSON.stringify(projects)); }
-    function loadLocal() { projects = JSON.parse(localStorage.getItem("qdp-projects")||"[]"); render(); }
-    loadLocal();
-
+    function saveProjLocal(){ localStorage.setItem("qdp-projects", JSON.stringify(projects)); }
+    function loadProjLocal(){ projects = JSON.parse(localStorage.getItem("qdp-projects")||"[]"); renderProjects(); }
+    loadProjLocal();
     document.getElementById("add").onclick=()=>{
       const url = entry.value.trim(); if(!url) return;
       projects.push({ name: "Custom", entry: url, category: "app", ts: Date.now() });
-      entry.value = ""; saveLocal(); render();
+      entry.value=""; saveProjLocal(); renderProjects();
     };
     list.onclick=(e)=>{
       const btn = e.target.closest("button"); if(!btn) return;
-      const i = +btn.dataset.i, act = btn.dataset.act;
-      if (act==="del") { projects.splice(i,1); saveLocal(); render(); }
+      const i=+btn.dataset.i, act=btn.dataset.act;
+      if (act==="del") { projects.splice(i,1); saveProjLocal(); renderProjects(); }
       if (act==="edit") {
         const np = prompt("Nazwa projektu:", projects[i].name||"");
-        if (np!=null) { projects[i].name=np; saveLocal(); render(); }
+        if (np!=null) { projects[i].name=np; saveProjLocal(); renderProjects(); }
       }
     };
     document.getElementById("export").onclick=()=>{
@@ -175,39 +192,20 @@
     document.getElementById("import").onclick=()=>importFile.click();
     importFile.onchange=async()=>{
       const file = importFile.files[0]; if(!file) return;
-      const txt = await file.text(); projects = JSON.parse(txt); saveLocal(); render();
+      const txt = await file.text(); projects = JSON.parse(txt); saveProjLocal(); renderProjects();
     };
     document.getElementById("sync").onclick=async()=>{
-      // zapis do KV
       const r = await fetch("/api/kv/projects", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify(projects) });
-      if (!r.ok) return alert("KV sync: błąd (czy wszedłeś przez ?token=...?)");
+      if (!r.ok) return alert("KV sync: błąd (wejdź przez ?token=… i sprawdź ENV)");
       alert("Zsynchronizowano z KV");
     };
-    // wczytanie z KV (jeśli istnieje)
     (async()=>{
       const r = await fetch("/api/kv/projects"); if(r.ok){
-        const j = await r.json(); if (j && j.value) { projects = j.value; saveLocal(); render(); }
+        const j = await r.json(); if (j && j.value) { projects=j.value; saveProjLocal(); renderProjects(); }
       }
     })();
 
-    // CHAT demo (KV)
-    const log = document.getElementById("log");
-    const msg = document.getElementById("msg");
-    const chat = JSON.parse(localStorage.getItem("qdp-chat")||"[]");
-    function renderChat(){ log.textContent = chat.map(x=>`• ${new Date(x.t).toLocaleTimeString()}  ${x.m}`).join("\n"); }
-    renderChat();
-    msg.onkeydown=(e)=>{ if(e.key==="Enter"){ chat.push({t:Date.now(), m:msg.value}); msg.value=""; localStorage.setItem("qdp-chat",JSON.stringify(chat)); renderChat(); } };
-    document.getElementById("saveChat").onclick=async()=>{
-      const r = await fetch("/api/kv/chat", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify(chat) });
-      alert(r.ok ? "Zapisano do KV" : "Błąd KV (wejdź przez ?token=…)");
-    };
-    document.getElementById("loadChat").onclick=async()=>{
-      const r = await fetch("/api/kv/chat"); const j = await r.json();
-      if (j && j.value) { localStorage.setItem("qdp-chat",JSON.stringify(j.value)); location.reload(); }
-      else alert("Brak czatu w KV");
-    };
-
-    // Asystent – akcje
+    // AKCJE (assist)
     const assistLog = document.getElementById("assistLog");
     function logAssist(x){ assistLog.textContent = (typeof x==="string")? x : JSON.stringify(x,null,2); }
     document.getElementById("verifyBtn").onclick=async()=>{
@@ -221,6 +219,69 @@
       if(!url) return;
       const r = await fetch("/api/assist/run", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify({ action:"deploy.webhook", params:{ url, secret } }) });
       logAssist(await r.json());
+    };
+
+    // CZAT AI (pełny)
+    const chatLog = document.getElementById("chatLog");
+    const userMsg = document.getElementById("userMsg");
+    const aiProvider = document.getElementById("aiProvider");
+    const aiModel = document.getElementById("aiModel");
+    const aiTemp = document.getElementById("aiTemp");
+    const btnSend = document.getElementById("send");
+    const btnClear = document.getElementById("clearChat");
+    const btnSaveAI = document.getElementById("saveAI");
+    const btnLoadAI = document.getElementById("loadAI");
+    const btnExportAI = document.getElementById("exportAI");
+
+    let messages = JSON.parse(localStorage.getItem("qdp-ai-messages")||"[]");
+    if (!messages.length) {
+      messages = [{ role:"system", content:"You are a senior engineer-assistant. Be concise, practical, and production-focused." }];
+    }
+    function renderAI(){
+      chatLog.innerHTML="";
+      messages.forEach(m=>{
+        const div=document.createElement("div");
+        div.className="msg "+(m.role==="user"?"user":(m.role==="assistant"?"assistant":"sys"));
+        div.textContent = (m.role.toUpperCase()+": "+m.content);
+        chatLog.appendChild(div);
+      });
+      chatLog.scrollTop = chatLog.scrollHeight;
+      localStorage.setItem("qdp-ai-messages", JSON.stringify(messages));
+    }
+    renderAI();
+
+    async function sendAI() {
+      const content = userMsg.value.trim(); if(!content) return;
+      messages.push({ role:"user", content }); userMsg.value=""; renderAI();
+      const body = {
+        messages,
+        provider: aiProvider.value || undefined,
+        model: aiModel.value || undefined,
+        temperature: parseFloat(aiTemp.value||"0.2")
+      };
+      const res = await fetch("/api/ai/chat", {
+        method:"POST", headers:{ "content-type":"application/json" },
+        body: JSON.stringify(body)
+      });
+      const j = await res.json();
+      if (!j.ok) { messages.push({ role:"assistant", content:`[Błąd AI: ${j.err||'unknown'}]` }); renderAI(); return; }
+      messages.push({ role:"assistant", content: j.text || "(pusty wynik)" }); renderAI();
+    }
+    btnSend.onclick=sendAI;
+    userMsg.addEventListener("keydown",(e)=>{ if(e.key==="Enter") sendAI(); });
+    btnClear.onclick=()=>{ messages=[{ role:"system", content:"You are a senior engineer-assistant. Be concise, practical, and production-focused." }]; renderAI(); };
+    btnSaveAI.onclick=async()=>{
+      const r = await fetch("/api/kv/ai-chat", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify(messages) });
+      alert(r.ok ? "Zapisano czat AI w KV" : "Błąd KV (wejdź przez ?token=…)");
+    };
+    btnLoadAI.onclick=async()=>{
+      const r = await fetch("/api/kv/ai-chat"); const j = await r.json();
+      if (j && j.value) { messages = j.value; renderAI(); } else alert("Brak czatu AI w KV");
+    };
+    btnExportAI.onclick=()=>{
+      const a=document.createElement("a");
+      a.href="data:application/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(messages,null,2));
+      a.download="ai-chat-history.json"; a.click();
     };
   </script>
 </body>
