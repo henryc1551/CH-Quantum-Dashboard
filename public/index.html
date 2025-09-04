@@ -1,88 +1,227 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quantum Edge Hub Supreme — Panel główny</title>
-  <meta name="description" content="Prywatny hub: Assistant (AI+TTS), Projects (R2/S3), Marketing (Ads/Analytics), Admin." />
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0d6efd"/>
+  <title>Quantum Dashboard Pro</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/favicon.ico">
   <style>
-    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial; background:#0a0f1e; color:#e6edff; }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px; }
-    header.top { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0; }
-    .brand { font-size: 20px; font-weight: 700; letter-spacing: .2px; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap:14px; }
-    .card { background:#0d1426; border:1px solid #1b2a4a; border-radius:14px; padding:14px; }
-    .card h3 { margin:0 0 8px; font-size:16px; }
-    .muted { color:#a7b4d0; }
-    .row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-    input, textarea, button, select { background:#0f1a33; color:#e6edff; border:1px solid #22345c; border-radius:10px; padding:8px 10px; }
-    button { cursor:pointer; }
-    .links a { display:inline-block; margin:4px 6px 0 0; padding:6px 10px; border:1px solid #22345c; border-radius:999px; text-decoration:none; color:#e6edff; }
-    pre { white-space: pre-wrap; background:#0f1422; border:1px solid #233256; border-radius:8px; padding:8px; max-height:260px; overflow:auto; }
-    footer { opacity:.8; font-size:12px; margin-top:18px; }
+    :root{--bg:#0b0b0c;--fg:#e7e7ec;--muted:#9aa0a6;--acc:#0d6efd;--card:#141417}
+    *{box-sizing:border-box} html,body{height:100%} body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial}
+    .wrap{max-width:1200px;margin:0 auto;padding:16px}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .brand{display:flex;gap:10px;align-items:center}
+    .brand img{width:28px;height:28px;border-radius:8px}
+    .pill{background:#0f0f12;border:1px solid #26262b;padding:6px 10px;border-radius:999px;color:var(--muted)}
+    .grid{display:grid;gap:12px;grid-template-columns:repeat(12,1fr)}
+    .card{grid-column:span 12;background:var(--card);border:1px solid #26262b;border-radius:14px;padding:14px}
+    @media(min-width:900px){.card.half{grid-column:span 6}}
+    button,.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:10px 12px;cursor:pointer}
+    .btn.sec{background:#1f1f25;color:var(--fg);border:1px solid #2b2b33}
+    input,textarea{width:100%;background:#101014;color:var(--fg);border:1px solid #26262b;border-radius:10px;padding:10px}
+    .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    pre{background:#0f0f12;border:1px solid #26262b;border-radius:10px;padding:10px;overflow:auto;max-height:220px}
+    .hidden{display:none}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <header class="top">
-      <div class="brand">🚀 Quantum Edge Hub Supreme</div>
-      <nav class="links">
-        <a href="/assistant/">Assistant (AI+TTS)</a>
-        <a href="/projects/">Projects</a>
-        <a href="/marketing/">Marketing</a>
-        <a href="/admin">Admin</a>
-      </nav>
+    <header>
+      <div class="brand">
+        <img src="/logo-192.png" alt="QD">
+        <strong>Quantum Dashboard</strong>
+        <span id="ver" class="pill">v?</span>
+      </div>
+      <div class="row">
+        <button id="logout" class="btn sec">Wyloguj</button>
+        <button id="install" class="btn sec">Zainstaluj PWA</button>
+      </div>
     </header>
 
-    <section class="card">
-      <h3>🔑 Szybkie logowanie / rejestracja</h3>
+    <div id="lock" class="card">
+      <h3>Wejście</h3>
+      <p>Hasło ekranu (UI): <code>przyjaźń</code></p>
       <div class="row">
-        <input id="email" type="email" placeholder="email" />
-        <input id="password" type="password" placeholder="hasło" />
-        <button id="btnRegister">Rejestruj</button>
-        <button id="btnLogin">Zaloguj</button>
-        <button id="btnLogout">Wyloguj</button>
-        <button id="btnWhoami">Kim jestem?</button>
-        <button id="btnBootstrap" title="Utwórz konto owner (jeśli brak)">Bootstrap owner</button>
+        <input id="pw" type="password" placeholder="hasło…"/>
+        <button id="go">Wejdź</button>
       </div>
-      <pre id="me" class="muted">–</pre>
-    </section>
-
-    <div class="grid">
-      <section class="card">
-        <h3>📁 Upload do Storage (R2/S3, presigned PUT)</h3>
-        <div class="row">
-          <input id="file" type="file" />
-          <button id="btnUpload">Wyślij</button>
-        </div>
-        <pre id="ulog" class="muted">–</pre>
-      </section>
-
-      <section class="card">
-        <h3>📈 Metryki (wewnętrzne)</h3>
-        <div class="row">
-          <button id="btnMetrics">Odśwież</button>
-          <a class="links" href="/api/health" target="_blank" rel="noopener">/api/health</a>
-        </div>
-        <pre id="metrics" class="muted">–</pre>
-      </section>
-
-      <section class="card">
-        <h3>🔗 Szybkie skróty</h3>
-        <div class="links">
-          <a href="/assistant/">/assistant/ — czat AI + TTS</a>
-          <a href="/projects/">/projects/ — workspace</a>
-          <a href="/marketing/">/marketing/ — reklamy</a>
-          <a href="/admin">/admin — panel admina</a>
-        </div>
-        <p class="muted" style="margin-top:8px">Po pierwszym deployu dodaj ENV (OpenAI, ElevenLabs, R2/S3 itd.).</p>
-      </section>
+      <small class="muted">Uwaga: to tylko blokada UI. Główne uwierzytelnianie: cookie z parametru <code>?token=…</code>.</small>
     </div>
 
-    <footer>© 2025 Henryk — licencja prywatna. All systems go.</footer>
+    <div id="app" class="hidden">
+      <div class="grid">
+        <section class="card half">
+          <h3>📦 Projekty</h3>
+          <div class="row">
+            <input id="entry" placeholder="URL projektu (entry)…">
+            <button id="add">Dodaj</button>
+            <button id="sync">🔁 Sync z KV</button>
+            <button id="export">⬇️ Export JSON</button>
+            <input id="importFile" type="file" accept="application/json" class="hidden">
+            <button id="import">⬆️ Import JSON</button>
+          </div>
+          <div id="list"></div>
+        </section>
+
+        <section class="card half">
+          <h3>🧰 Akcje (asystent)</h3>
+          <div class="row">
+            <input id="verifyUrl" placeholder="https://… (HEAD)">
+            <button id="verifyBtn">Sprawdź HEAD</button>
+          </div>
+          <div class="row">
+            <input id="hookUrl" placeholder="Webhook URL (deploy/CI)">
+            <input id="hookSecret" placeholder="Sekretny nagłówek (opcjonalnie)">
+            <button id="hookBtn">Wyślij webhook</button>
+          </div>
+          <pre id="assistLog"></pre>
+        </section>
+
+        <section class="card">
+          <h3>💬 Chat (demo pamięci)</h3>
+          <div class="row">
+            <input id="msg" placeholder="Wpisz wiadomość i ENTER">
+            <button id="saveChat">Zapisz do KV</button>
+            <button id="loadChat">Wczytaj z KV</button>
+          </div>
+          <pre id="log"></pre>
+        </section>
+      </div>
+    </div>
   </div>
 
-  <script type="module" src="/app.js"></script>
+  <script>
+    // PWA
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/sw.js").catch(()=>{});
+    }
+    let deferredPrompt=null;
+    window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; });
+    document.getElementById("install").onclick=async()=>{
+      if(!deferredPrompt) return alert("PWA już zainstalowana lub niedostępna");
+      deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null;
+    };
+
+    // wersja / health
+    fetch("/version").then(r=>r.json()).then(v=>{
+      document.getElementById("ver").textContent = "v"+(v.version||"?");
+    });
+
+    // UI lock
+    const lock = document.getElementById("lock");
+    const app  = document.getElementById("app");
+    const go = document.getElementById("go");
+    const pw = document.getElementById("pw");
+    function openIfOk(){
+      if (pw.value.trim() === "przyjaźń") {
+        lock.classList.add("hidden"); app.classList.remove("hidden");
+        localStorage.setItem("qdp-ui-ok","1");
+      } else { alert("Złe hasło (podpowiedź: przyjaźń)"); }
+    }
+    go.onclick=openIfOk; pw.onkeydown=(e)=>{ if(e.key==="Enter") openIfOk(); };
+    if (localStorage.getItem("qdp-ui-ok")==="1") { lock.classList.add("hidden"); app.classList.remove("hidden"); }
+
+    // wylogowanie (czyści lokalną zasłonę UI)
+    document.getElementById("logout").onclick=()=>{
+      localStorage.removeItem("qdp-ui-ok"); location.reload();
+    };
+
+    // PROJEKTY – import/export/sync
+    const list = document.getElementById("list");
+    const entry = document.getElementById("entry");
+    let projects = [];
+
+    function render() {
+      list.innerHTML = "";
+      projects.forEach((p,i)=>{
+        const row = document.createElement("div");
+        row.className="row";
+        row.innerHTML = `
+          <span class="pill">${p.name||"Bez nazwy"}</span>
+          <a class="btn sec" href="${p.entry}" target="_blank">▶ Otwórz</a>
+          <button class="btn sec" data-i="${i}" data-act="edit">✏️</button>
+          <button class="btn sec" data-i="${i}" data-act="del">🗑️</button>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function saveLocal() { localStorage.setItem("qdp-projects", JSON.stringify(projects)); }
+    function loadLocal() { projects = JSON.parse(localStorage.getItem("qdp-projects")||"[]"); render(); }
+    loadLocal();
+
+    document.getElementById("add").onclick=()=>{
+      const url = entry.value.trim(); if(!url) return;
+      projects.push({ name: "Custom", entry: url, category: "app", ts: Date.now() });
+      entry.value = ""; saveLocal(); render();
+    };
+    list.onclick=(e)=>{
+      const btn = e.target.closest("button"); if(!btn) return;
+      const i = +btn.dataset.i, act = btn.dataset.act;
+      if (act==="del") { projects.splice(i,1); saveLocal(); render(); }
+      if (act==="edit") {
+        const np = prompt("Nazwa projektu:", projects[i].name||"");
+        if (np!=null) { projects[i].name=np; saveLocal(); render(); }
+      }
+    };
+    document.getElementById("export").onclick=()=>{
+      const a=document.createElement("a");
+      a.href="data:application/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(projects,null,2));
+      a.download="projects.json"; a.click();
+    };
+    const importFile = document.getElementById("importFile");
+    document.getElementById("import").onclick=()=>importFile.click();
+    importFile.onchange=async()=>{
+      const file = importFile.files[0]; if(!file) return;
+      const txt = await file.text(); projects = JSON.parse(txt); saveLocal(); render();
+    };
+    document.getElementById("sync").onclick=async()=>{
+      // zapis do KV
+      const r = await fetch("/api/kv/projects", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify(projects) });
+      if (!r.ok) return alert("KV sync: błąd (czy wszedłeś przez ?token=...?)");
+      alert("Zsynchronizowano z KV");
+    };
+    // wczytanie z KV (jeśli istnieje)
+    (async()=>{
+      const r = await fetch("/api/kv/projects"); if(r.ok){
+        const j = await r.json(); if (j && j.value) { projects = j.value; saveLocal(); render(); }
+      }
+    })();
+
+    // CHAT demo (KV)
+    const log = document.getElementById("log");
+    const msg = document.getElementById("msg");
+    const chat = JSON.parse(localStorage.getItem("qdp-chat")||"[]");
+    function renderChat(){ log.textContent = chat.map(x=>`• ${new Date(x.t).toLocaleTimeString()}  ${x.m}`).join("\n"); }
+    renderChat();
+    msg.onkeydown=(e)=>{ if(e.key==="Enter"){ chat.push({t:Date.now(), m:msg.value}); msg.value=""; localStorage.setItem("qdp-chat",JSON.stringify(chat)); renderChat(); } };
+    document.getElementById("saveChat").onclick=async()=>{
+      const r = await fetch("/api/kv/chat", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify(chat) });
+      alert(r.ok ? "Zapisano do KV" : "Błąd KV (wejdź przez ?token=…)");
+    };
+    document.getElementById("loadChat").onclick=async()=>{
+      const r = await fetch("/api/kv/chat"); const j = await r.json();
+      if (j && j.value) { localStorage.setItem("qdp-chat",JSON.stringify(j.value)); location.reload(); }
+      else alert("Brak czatu w KV");
+    };
+
+    // Asystent – akcje
+    const assistLog = document.getElementById("assistLog");
+    function logAssist(x){ assistLog.textContent = (typeof x==="string")? x : JSON.stringify(x,null,2); }
+    document.getElementById("verifyBtn").onclick=async()=>{
+      const url = document.getElementById("verifyUrl").value.trim(); if(!url) return;
+      const r = await fetch("/api/assist/run", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify({ action:"projects.verifyHead", params:{ url } }) });
+      logAssist(await r.json());
+    };
+    document.getElementById("hookBtn").onclick=async()=>{
+      const url = document.getElementById("hookUrl").value.trim();
+      const secret = document.getElementById("hookSecret").value.trim();
+      if(!url) return;
+      const r = await fetch("/api/assist/run", { method:"POST", headers:{ "content-type":"application/json" }, body: JSON.stringify({ action:"deploy.webhook", params:{ url, secret } }) });
+      logAssist(await r.json());
+    };
+  </script>
 </body>
 </html>
