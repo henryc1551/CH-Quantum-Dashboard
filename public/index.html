@@ -1,320 +1,133 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="theme-color" content="#0d6efd"/>
-  <title>LeonCloudQ • Quantum Dashboard PRO</title>
-  <link rel="manifest" href="/manifest.webmanifest">
-  <link rel="icon" href="/favicon.ico">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Dashboard Pro</title>
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
   <style>
-    :root{
-      --bg:#0b0b0c;--fg:#e7e7ec;--muted:#9aa0a6;--acc:#0d6efd;--card:#141417;
-      --ok:#1f7a1f;--warn:#a87a00;--err:#a52828
-    }
-    *{box-sizing:border-box} html,body{height:100%}
-    body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Arial}
-    .wrap{max-width:1200px;margin:0 auto;padding:16px}
-    header{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:10px}
-    .brand{display:flex;gap:10px;align-items:center}
-    .brand img{width:28px;height:28px;border-radius:8px}
-    .pill{background:#0f0f12;border:1px solid #26262b;padding:6px 10px;border-radius:999px;color:var(--muted)}
-    .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .grid{display:grid;gap:12px;grid-template-columns:repeat(12,1fr)}
-    .card{grid-column:span 12;background:var(--card);border:1px solid #26262b;border-radius:14px;padding:14px}
-    @media(min-width:900px){.half{grid-column:span 6}.third{grid-column:span 4}}
-    button,.btn{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:10px 12px;cursor:pointer}
-    .btn.sec{background:#1f1f25;color:var(--fg);border:1px solid #2b2b33}
-    .btn.ghost{background:transparent;border:1px solid #2b2b33;color:var(--fg)}
-    input,textarea,select{width:100%;background:#101014;color:var(--fg);border:1px solid #26262b;border-radius:10px;padding:10px}
-    input[type="number"]{max-width:140px}
-    pre{background:#0f0f12;border:1px solid #26262b;border-radius:10px;padding:10px;overflow:auto;max-height:280px;white-space:pre-wrap}
-    .muted{color:var(--muted)} .hidden{display:none}
-    .chatlog{max-height:420px;overflow:auto;background:#0f0f12;border:1px solid #26262b;border-radius:10px;padding:10px}
-    .msg{margin:6px 0;padding:8px 10px;border-radius:10px}
-    .user{background:#1f2533} .assistant{background:#1e222a} .sys{background:#2a1f1f}
-    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    .gallery img{width:100%;height:auto;border-radius:10px;border:1px solid #2b2b33}
-    .status{font-weight:600} .status.ok{color:var(--ok)} .status.warn{color:var(--warn)} .status.err{color:var(--err)}
+    body { background:#101010; color:#fff; }
+    header { text-align:center; margin-bottom:2rem; }
+    .grid { display:flex; flex-wrap:wrap; gap:1rem; }
+    .card { flex:1; min-width:280px; background:#181818; padding:1rem; border-radius:12px; }
+    .row { margin:0.5rem 0; }
+    .btn { margin:0.25rem; }
+    .muted { color:#888; font-size:0.8rem; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <img src="/logo-192.png" alt="QD">
-        <strong>LeonCloudQ • Quantum Dashboard PRO</strong>
-        <span id="ver" class="pill">v?</span>
+  <header>
+    <h1>⚡ Quantum Dashboard Pro</h1>
+    <p>All-in-One Projects &amp; Games Hub</p>
+  </header>
+
+  <main class="grid">
+
+    <section class="card">
+      <h3>🔑 Logowanie</h3>
+      <input id="loginPass" type="password" placeholder="Hasło" />
+      <button id="loginBtn" class="btn">Zaloguj</button>
+      <p id="loginStatus" class="muted"></p>
+    </section>
+
+    <section class="card">
+      <h3>📂 Projekty</h3>
+      <ul id="projectList"></ul>
+      <button id="refreshBtn" class="btn">Odśwież</button>
+    </section>
+
+    <section class="card">
+      <h3>🤖 Chat Asystenta</h3>
+      <textarea id="chatInput" placeholder="Zadaj pytanie…" rows="3"></textarea>
+      <button id="sendChat" class="btn">Wyślij</button>
+      <pre id="chatLog" style="max-height:200px; overflow:auto;"></pre>
+    </section>
+
+    <section class="card">
+      <h3>🎮 Grafika (presety)</h3>
+      <div class="row">
+        <select id="gfxPreset">
+          <option value="mobile">Mobile (lekko)</option>
+          <option value="high" selected>High (SSR/SSGI)</option>
+          <option value="ultra-rt">Ultra RT (WebGPU / Path Tracing)</option>
+        </select>
       </div>
       <div class="row">
-        <span id="health" class="pill">health: ?</span>
-        <button id="install" class="btn sec">Zainstaluj PWA</button>
-        <button id="logout" class="btn ghost">Wyloguj</button>
+        <button id="gfxLoad" class="btn">Wczytaj</button>
+        <button id="gfxSaveGlobal" class="btn">Zapisz globalnie</button>
+        <button id="gfxSaveUser" class="btn">Zapisz dla mnie</button>
       </div>
-    </header>
+      <small class="muted">Ultra-RT wymaga WebGPU. Inaczej fallback do High.</small>
+    </section>
 
-    <!-- UI lock + ustaw/zmień hasło -->
-    <div id="lock" class="card">
-      <h3>Wejście</h3>
-      <p id="passInfo" class="muted">Sprawdzam status hasła…</p>
-      <div class="row" id="loginRow">
-        <input id="pw" type="password" placeholder="hasło…"/>
-        <button id="go">Wejdź</button>
-      </div>
-      <details style="margin-top:10px">
-        <summary>⚙️ Ustaw / Zmień hasło UI</summary>
-        <div class="row" style="margin-top:8px">
-          <input id="oldPass" type="password" placeholder="stare hasło (puste jeśli brak)">
-          <input id="newPass" type="password" placeholder="nowe hasło (min. 4 znaki)">
-          <button id="setPass">Zapisz hasło</button>
-        </div>
-        <small class="muted">Hasło dotyczy ekranu UI. Auth serwera to cookie po wejściu przez <code>?token=…</code>.</small>
-      </details>
-    </div>
+  </main>
 
-    <!-- App -->
-    <div id="app" class="hidden">
-      <div class="grid">
-        <section class="card half">
-          <h3>📦 Projekty</h3>
-          <div class="row">
-            <input id="entry" placeholder="URL projektu (entry)…">
-            <button id="add">Dodaj</button>
-            <button id="sync">🔁 Sync z KV</button>
-            <button id="export">⬇️ Export JSON</button>
-            <input id="importFile" type="file" accept="application/json" class="hidden">
-            <button id="import">⬆️ Import JSON</button>
-          </div>
-          <div id="plist"></div>
-        </section>
-
-        <section class="card half">
-          <h3>🧰 Akcje (HEAD / Webhook / KV)</h3>
-          <div class="row">
-            <input id="verifyUrl" placeholder="https://… (HEAD)">
-            <button id="verifyBtn" class="btn sec">Sprawdź HEAD</button>
-          </div>
-          <div class="row">
-            <input id="hookUrl" placeholder="Webhook URL (deploy/CI)">
-            <input id="hookSecret" placeholder="Sekretny nagłówek (opcjonalnie)">
-            <button id="hookBtn" class="btn sec">Wyślij webhook</button>
-          </div>
-          <pre id="assistLog"></pre>
-        </section>
-
-        <section class="card">
-          <h3>🤝 Czat AI</h3>
-          <div class="row">
-            <select id="aiProvider">
-              <option value="">(ENV)</option>
-              <option value="openai">OpenAI</option>
-              <option value="openrouter">OpenRouter</option>
-            </select>
-            <input id="aiModel" placeholder="model (opcjonalnie)">
-            <input id="aiTemp" type="number" min="0" max="2" step="0.1" value="0.2">
-          </div>
-          <div class="chatlog" id="chatLog"></div>
-          <div class="row">
-            <input id="userMsg" placeholder="Napisz wiadomość i ENTER">
-            <button id="send">Wyślij</button>
-            <button id="clearChat" class="btn sec">Wyczyść</button>
-            <button id="saveAI" class="btn sec">Zapisz AI czat → KV</button>
-            <button id="loadAI" class="btn sec">Wczytaj AI czat ← KV</button>
-            <button id="exportAI" class="btn sec">Export .json</button>
-          </div>
-        </section>
-
-        <section class="card">
-          <h3>🎨 Generowanie Obrazów</h3>
-          <div class="row">
-            <select id="imgProvider">
-              <option value="openai">OpenAI (Images/DALL·E)</option>
-            </select>
-            <input id="imgModel" placeholder="dall-e-3 (domyślne)">
-            <select id="imgSize">
-              <option>1024x1024</option><option>1024x1792</option><option>1792x1024</option><option>512x512</option>
-            </select>
-            <select id="imgN"><option>1</option><option>2</option><option>3</option><option>4</option></select>
-          </div>
-          <textarea id="imgPrompt" rows="3" placeholder="Opisz obraz (prompt)…"></textarea>
-          <div class="row">
-            <button id="genImg">Wygeneruj</button>
-            <button id="saveImgs" class="btn sec">Zapisz galerię → KV</button>
-            <button id="loadImgs" class="btn sec">Wczytaj galerię ← KV</button>
-            <span id="imgStatus" class="status"></span>
-          </div>
-          <div id="gallery" class="gallery"></div>
-        </section>
-
-        <section class="card third">
-          <h3>🔊 Dźwięk</h3>
-          <div class="row">
-            <button class="btn sec" onclick="playSound('sound-notify')">Powiadomienie</button>
-            <button class="btn sec" onclick="playSound('sound-success')">Sukces</button>
-            <button class="btn sec" onclick="playSound('sound-error')">Błąd</button>
-          </div>
-          <p class="muted">W repo trzymaj: <code>notify.mp3</code>, <code>success.mp3</code>, <code>error.mp3</code>.</p>
-        </section>
-
-        <section class="card third">
-          <h3>🧪 Status</h3>
-          <div class="row"><span>Wersja serwera:</span><code id="versionInfo">?</code></div>
-          <div class="row"><span>KV:</span><code id="kvInfo">?</code></div>
-          <div class="row"><span>AI (ENV):</span><code id="aiInfo">?</code></div>
-          <div class="row"><span>Health:</span><code id="healthInfo">?</code></div>
-        </section>
-
-        <section class="card third">
-          <h3>📄 Import/Export</h3>
-          <div class="row"><button id="exportAll" class="btn sec">Export wszystkiego (.json)</button></div>
-        </section>
-
-      </div>
-    </div>
-  </div>
-
-  <audio id="sound-notify" src="/notify.mp3" preload="auto"></audio>
-  <audio id="sound-success" src="/success.mp3" preload="auto"></audio>
-  <audio id="sound-error" src="/error.mp3" preload="auto"></audio>
-
-  <script>
-    // PWA
-    if ("serviceWorker" in navigator) { navigator.serviceWorker.register("/sw.js").catch(()=>{}); }
-    let deferredPrompt=null;
-    window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferredPrompt=e; });
-    document.getElementById("install").onclick=async()=>{ if(!deferredPrompt) return alert("PWA już jest"); deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; };
-
-    const $=(id)=>document.getElementById(id);
-    function playSound(id){ const el=$(id); if(el){el.currentTime=0; el.play().catch(()=>{});} }
-    function download(name,data,type="application/json"){ const a=document.createElement("a"); a.href=`data:${type};charset=utf-8,`+encodeURIComponent(data); a.download=name; a.click(); }
-
-    // Header info
-    fetch("/version").then(r=>r.json()).then(v=>{
-      $("ver").textContent="v"+(v.version||"?");
-      $("versionInfo").textContent=v.version||"?";
-      $("kvInfo").textContent=v.kv?"ON":"OFF";
-      $("aiInfo").textContent=v.ai?`${v.ai.provider||"-"} / ${v.ai.model||"-"}`:"-";
-    }).catch(()=>{});
-    fetch("/healthz").then(r=>r.json()).then(h=>{
-      const ok=!!h.ok; $("health").textContent= ok? "health: ok":"health: fail";
-      $("healthInfo").textContent= ok? "OK":"FAIL";
-    }).catch(()=>{ $("health").textContent="health: fail"; $("healthInfo").textContent="FAIL"; });
-
-    // UI password (server-side)
-    async function passStatus(){
-      try{ const r=await fetch("/api/ui-pass/status"); const j=await r.json(); $("passInfo").textContent= j.ok && j.set ? "Hasło ustawione – wpisz aby wejść":"Brak hasła – ustaw nowe poniżej"; }
-      catch{ $("passInfo").textContent="Brak odpowiedzi serwera"; }
-    }
-    async function passVerify(pass){
-      const r=await fetch("/api/ui-pass/verify",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({pass})});
-      const j=await r.json(); return !!j.ok;
-    }
-    async function passSet(oldPass,newPass){
-      const r=await fetch("/api/ui-pass/set",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({old:oldPass,new:newPass})});
-      return await r.json();
-    }
-    passStatus();
-
-    const lock=$("lock"), app=$("app");
-    $("go").onclick=async()=>{
-      const pass=$("pw").value.trim(); if(!pass) return alert("Podaj hasło");
-      const ok=await passVerify(pass);
-      if(ok){ localStorage.setItem("qdp-ui-ok","1"); lock.classList.add("hidden"); app.classList.remove("hidden"); }
-      else alert("Złe hasło");
+  <script type="module">
+    // === LOGIN ===
+    const PASS = "przyjaźń";
+    const loginBtn = document.getElementById("loginBtn");
+    loginBtn.onclick = () => {
+      const val = document.getElementById("loginPass").value;
+      if(val === PASS){
+        document.getElementById("loginStatus").textContent = "✅ Zalogowano!";
+      } else {
+        document.getElementById("loginStatus").textContent = "❌ Złe hasło.";
+      }
     };
-    $("pw").addEventListener("keydown",(e)=>{ if(e.key==="Enter") $("go").click(); });
-    $("setPass").onclick=async()=>{
-      const oldPass=$("oldPass").value, newPass=$("newPass").value;
-      if(!newPass||newPass.length<4) return alert("Nowe hasło zbyt krótkie");
-      const out=await passSet(oldPass,newPass);
-      if(out.ok){ alert("Hasło zapisane"); $("pw").value=""; $("oldPass").value=""; $("newPass").value=""; passStatus(); }
-      else alert("Błąd: "+(out.err||""));
-    };
-    $("logout").onclick=()=>{ localStorage.removeItem("qdp-ui-ok"); location.reload(); };
-    if(localStorage.getItem("qdp-ui-ok")==="1"){ lock.classList.add("hidden"); app.classList.remove("hidden"); }
 
-    // Projekty + KV
-    const plist=$("plist"), entry=$("entry");
-    let projects=JSON.parse(localStorage.getItem("qdp-projects")||"[]");
-    function saveProjects(){ localStorage.setItem("qdp-projects", JSON.stringify(projects)); }
-    function renderProjects(){
-      plist.innerHTML="";
-      projects.forEach((p,i)=>{
-        const row=document.createElement("div");
-        row.className="row";
-        row.innerHTML=`
-          <span class="pill">${p.name||"Bez nazwy"}</span>
-          <a class="btn sec" href="${p.entry}" target="_blank">▶ Otwórz</a>
-          <button class="btn sec" data-i="${i}" data-act="edit">✏️</button>
-          <button class="btn sec" data-i="${i}" data-act="del">🗑️</button>`;
-        plist.appendChild(row);
+    // === PROJECTS ===
+    async function loadProjects(){
+      const res = await fetch("/project.json").then(r=>r.json()).catch(()=>({projects:[]}));
+      const ul = document.getElementById("projectList");
+      ul.innerHTML = "";
+      res.projects.forEach(p=>{
+        const li = document.createElement("li");
+        li.textContent = p.name + " — " + p.desc;
+        ul.appendChild(li);
       });
     }
-    renderProjects();
-    $("add").onclick=()=>{ const url=entry.value.trim(); if(!url) return; projects.push({name:"Custom",entry:url,ts:Date.now()}); entry.value=""; saveProjects(); renderProjects(); playSound("sound-success"); };
-    plist.onclick=(e)=>{ const b=e.target.closest("button"); if(!b) return; const i=+b.dataset.i, act=b.dataset.act;
-      if(act==="del"){ projects.splice(i,1); saveProjects(); renderProjects(); playSound("sound-error"); }
-      if(act==="edit"){ const np=prompt("Nazwa projektu:",projects[i].name||""); if(np!=null){ projects[i].name=np; saveProjects(); renderProjects(); playSound("sound-notify"); } }
-    };
-    $("export").onclick=()=>download("projects.json", JSON.stringify(projects,null,2));
-    $("import").onclick=()=>$("importFile").click();
-    $("importFile").onchange=async()=>{ const f=$("importFile").files[0]; if(!f) return; const txt=await f.text(); projects=JSON.parse(txt); saveProjects(); renderProjects(); playSound("sound-success"); };
-    (async()=>{ const r=await fetch("/api/kv/projects"); if(r.ok){ const j=await r.json(); if(j&&j.value){ projects=j.value; saveProjects(); renderProjects(); } }})();
-    $("sync").onclick=async()=>{ const r=await fetch("/api/kv/projects",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(projects)}); alert(r.ok?"KV sync OK":"KV błąd (wejdź przez ?token=…)"); if(r.ok) playSound("sound-success"); };
+    document.getElementById("refreshBtn").onclick = loadProjects;
+    loadProjects();
 
-    // Assist
-    const assistLog=$("assistLog");
-    function logAssist(x){ assistLog.textContent=(typeof x==="string")?x:JSON.stringify(x,null,2); }
-    $("verifyBtn").onclick=async()=>{ const url=$("verifyUrl").value.trim(); if(!url) return; const r=await fetch("/api/assist/run",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({action:"projects.verifyHead",params:{url}})}); logAssist(await r.json()); };
-
-    $("hookBtn").onclick=async()=>{ const url=$("hookUrl").value.trim(); const secret=$("hookSecret").value.trim(); if(!url) return;
-      const r=await fetch("/api/assist/run",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({action:"deploy.webhook",params:{url,secret}})});
-      logAssist(await r.json());
+    // === CHAT (stub) ===
+    const chatLog = document.getElementById("chatLog");
+    document.getElementById("sendChat").onclick = () => {
+      const val = document.getElementById("chatInput").value;
+      chatLog.textContent += "\\n> " + val;
+      document.getElementById("chatInput").value = "";
     };
 
-    // Czat AI
-    const chatLog=$("chatLog"), userMsg=$("userMsg");
-    const aiProvider=$("aiProvider"), aiModel=$("aiModel"), aiTemp=$("aiTemp");
-    let messages=JSON.parse(localStorage.getItem("qdp-ai-messages")||"[]");
-    if(!messages.length){ messages=[{role:"system",content:"You are a senior engineer-assistant. Be concise and practical."}]; }
-    function renderAI(){ chatLog.innerHTML=""; messages.forEach(m=>{ const d=document.createElement("div"); d.className="msg "+(m.role==="user"?"user":(m.role==="assistant"?"assistant":"sys")); d.textContent=m.role.toUpperCase()+": "+m.content; chatLog.appendChild(d); }); chatLog.scrollTop=chatLog.scrollHeight; localStorage.setItem("qdp-ai-messages", JSON.stringify(messages)); }
-    renderAI();
-    async function sendAI(){
-      const content=userMsg.value.trim(); if(!content) return;
-      messages.push({role:"user",content}); userMsg.value=""; renderAI();
-      const body={messages,provider:aiProvider.value||undefined,model:aiModel.value||undefined,temperature:parseFloat(aiTemp.value||"0.2")};
-      const res=await fetch("/api/ai/chat",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});
-      const j=await res.json();
-      if(!j.ok){ messages.push({role:"assistant",content:`[Błąd AI: ${j.err||"unknown"}]`}); playSound("sound-error"); renderAI(); return; }
-      messages.push({role:"assistant",content:j.text||"(pusty wynik)"}); playSound("sound-success"); renderAI();
+    // === GFX PRESETS ===
+    function uid(){ return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)); }
+    let USER_ID = localStorage.getItem("qdp-user-id");
+    if(!USER_ID){ USER_ID = "u-"+uid(); localStorage.setItem("qdp-user-id", USER_ID); }
+
+    const gfxSel = document.getElementById("gfxPreset");
+    async function gfxLoad(id){
+      const q = id ? `?id=${encodeURIComponent(id)}` : "";
+      const r = await fetch(`/api/gfx/get${q}`);
+      const j = await r.json();
+      if (j.ok && j.preset) gfxSel.value = j.preset;
     }
-    $("send").onclick=sendAI; userMsg.addEventListener("keydown",(e)=>{ if(e.key==="Enter") sendAI(); });
-    $("clearChat").onclick=()=>{ messages=[{role:"system",content:"You are a senior engineer-assistant. Be concise and practical."}]; renderAI(); };
-    $("saveAI").onclick=async()=>{ const r=await fetch("/api/kv/ai-chat",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(messages)}); alert(r.ok?"Zapisano czat AI w KV":"Błąd KV"); };
-    $("loadAI").onclick=async()=>{ const r=await fetch("/api/kv/ai-chat"); const j=await r.json(); if(j&&j.value){ messages=j.value; renderAI(); } else alert("Brak czatu w KV"); };
-    $("exportAI").onclick=()=>download("ai-chat-history.json", JSON.stringify(messages,null,2));
-
-    // Obrazy (OpenAI)
-    const gallery=$("gallery"), imgStatus=$("imgStatus"); let images=[];
-    function renderGallery(){ gallery.innerHTML=""; images.forEach((im,i)=>{ const a=document.createElement("a"); a.href=im.url||im.dataUrl; a.target="_blank"; const img=document.createElement("img"); img.src=im.url||im.dataUrl; img.alt="img-"+i; a.appendChild(img); gallery.appendChild(a); }); }
-    function setImgStatus(t,c){ imgStatus.textContent=t; imgStatus.className="status "+(c||""); }
-    $("genImg").onclick=async()=>{
-      const prompt=$("imgPrompt").value.trim(); if(!prompt) return alert("Podaj prompt");
-      const model=$("imgModel").value.trim()||"dall-e-3"; const size=$("imgSize").value; const n=parseInt($("imgN").value,10)||1;
-      setImgStatus("Generuję…","warn");
-      const r=await fetch("/api/image/generate",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({provider:"openai",model,prompt,size,n})});
-      const j=await r.json();
-      if(!j.ok){ setImgStatus("Błąd: "+(j.err||r.status),"err"); return; }
-      images=(j.images||[]).map(x=>x.url?{url:x.url}:{dataUrl:`data:image/png;base64,${x.b64}`}); renderGallery(); setImgStatus("Gotowe ✔","ok");
-    };
-    $("saveImgs").onclick=async()=>{ const r=await fetch("/api/kv/images",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(images)}); alert(r.ok?"Zapisano":"Błąd"); };
-    $("loadImgs").onclick=async()=>{ const r=await fetch("/api/kv/images"); const j=await r.json(); if(j&&j.value){ images=j.value; renderGallery(); } };
-
-    // Export całości
-    $("exportAll").onclick=()=>{
-      const bundle={version:$("ver").textContent,projects,ai_messages:messages,images};
-      download("qdp-export.json", JSON.stringify(bundle,null,2));
-    };
+    async function gfxSaveGlobal(){
+      await fetch("/api/gfx/set", {
+        method:"POST", headers:{ "content-type":"application/json" },
+        body: JSON.stringify({ preset: gfxSel.value })
+      });
+      alert("Zapisano globalnie");
+    }
+    async function gfxSaveUser(){
+      await fetch("/api/gfx/set", {
+        method:"POST", headers:{ "content-type":"application/json" },
+        body: JSON.stringify({ id: USER_ID, preset: gfxSel.value })
+      });
+      alert("Zapisano dla Ciebie");
+    }
+    document.getElementById("gfxLoad").onclick = ()=> gfxLoad(USER_ID);
+    document.getElementById("gfxSaveGlobal").onclick = gfxSaveGlobal;
+    document.getElementById("gfxSaveUser").onclick = gfxSaveUser;
+    gfxLoad(USER_ID);
   </script>
 </body>
 </html>
