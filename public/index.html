@@ -1,133 +1,217 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quantum Dashboard Pro</title>
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
-  <style>
-    body { background:#101010; color:#fff; }
-    header { text-align:center; margin-bottom:2rem; }
-    .grid { display:flex; flex-wrap:wrap; gap:1rem; }
-    .card { flex:1; min-width:280px; background:#181818; padding:1rem; border-radius:12px; }
-    .row { margin:0.5rem 0; }
-    .btn { margin:0.25rem; }
-    .muted { color:#888; font-size:0.8rem; }
-  </style>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Quantum Dashboard Pro — FULL AUTO</title>
+<link rel="manifest" href="/manifest.webmanifest"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+<style>
+:root{--bg:#0d0f13;--card:#151823;--muted:#9aa3af;--acc:#ffd700}
+body{background:var(--bg);color:#e5e7eb}
+header{text-align:center;padding:18px 8px}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));padding:1rem}
+.card{background:var(--card);border:1px solid #24283b;border-radius:14px;padding:1rem}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.btn{border:1px solid #2f3550}
+.muted{color:var(--muted);font-size:.9rem}
+.list .item{border:1px solid #2a2e45;border-radius:12px;padding:.6rem .7rem;margin:.5rem 0}
+pre{background:#0c0e14;border:1px solid #20243a;border-radius:.8rem;padding:.6rem;max-height:260px;overflow:auto}
+@media (max-width:740px){.grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <header>
-    <h1>⚡ Quantum Dashboard Pro</h1>
-    <p>All-in-One Projects &amp; Games Hub</p>
-  </header>
+<header>
+  <h1>⚡ Quantum Dashboard Pro — FULL AUTO</h1>
+  <p class="muted">GFX • Templates • Generator • Release • Health • GitHub Publish • Tag • Release • Issues • Auto flows</p>
+</header>
 
-  <main class="grid">
-
-    <section class="card">
-      <h3>🔑 Logowanie</h3>
-      <input id="loginPass" type="password" placeholder="Hasło" />
+<main class="grid">
+  <section class="card">
+    <h3>🔑 Logowanie</h3>
+    <div class="row">
+      <input id="loginPass" type="password" placeholder="Hasło UI (przyjaźń)"/>
       <button id="loginBtn" class="btn">Zaloguj</button>
-      <p id="loginStatus" class="muted"></p>
-    </section>
+    </div>
+    <p id="loginStatus" class="muted"></p>
+  </section>
 
-    <section class="card">
-      <h3>📂 Projekty</h3>
-      <ul id="projectList"></ul>
-      <button id="refreshBtn" class="btn">Odśwież</button>
-    </section>
+  <section class="card">
+    <h3>📂 Projekty</h3>
+    <div class="row">
+      <button id="projRefresh" class="btn">Odśwież</button>
+      <button id="projHealthAll" class="btn">Health ALL</button>
+    </div>
+    <div id="projectList" class="list"></div>
+    <pre id="healthOut" hidden></pre>
+  </section>
 
-    <section class="card">
-      <h3>🤖 Chat Asystenta</h3>
-      <textarea id="chatInput" placeholder="Zadaj pytanie…" rows="3"></textarea>
-      <button id="sendChat" class="btn">Wyślij</button>
-      <pre id="chatLog" style="max-height:200px; overflow:auto;"></pre>
-    </section>
+  <section class="card">
+    <h3>🎮 Grafika</h3>
+    <div class="row">
+      <select id="gfxPreset">
+        <option value="mobile">Mobile</option>
+        <option value="high" selected>High</option>
+        <option value="ultra-rt">Ultra-RT</option>
+      </select>
+      <button id="gfxLoad" class="btn">Wczytaj</button>
+      <button id="gfxSaveGlobal" class="btn">Zapisz globalnie</button>
+      <button id="gfxSaveUser" class="btn">Zapisz dla mnie</button>
+    </div>
+  </section>
 
-    <section class="card">
-      <h3>🎮 Grafika (presety)</h3>
+  <section class="card">
+    <h3>🧬 Generator</h3>
+    <div class="row"><input id="scName" placeholder="Nazwa projektu"/></div>
+    <div class="row"><select id="scTemplate"></select></div>
+    <div class="row">
+      <button id="scSync" class="btn">Odśwież szablony</button>
+      <button id="scGet" class="btn">Pobierz bootstrap.sh</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>🚀 Release & Assets</h3>
+    <div class="row">
+      <input id="relProject" placeholder="ID projektu (np. urf-core)"/>
+      <select id="relAssets"><option>v1</option><option selected>v2</option><option>v3</option></select>
+      <button id="relGet" class="btn">Pobierz</button>
+      <button id="relSet" class="btn">Ustaw + bump</button>
+    </div>
+    <pre id="relOut"></pre>
+  </section>
+
+  <section class="card">
+    <h3>🐙 Publish → GitHub</h3>
+    <div class="row">
+      <input id="ghOwner" placeholder="owner/org (opcj.)"/>
+      <input id="ghRepo" placeholder="repo (np. urf-pro-rt)"/>
+    </div>
+    <div class="row">
+      <select id="ghTemplate">
+        <option value="">— pliki z formularza —</option>
+        <option value="game-urf-pro">game-urf-pro</option>
+        <option value="game-urf-pro-rt">game-urf-pro-rt</option>
+      </select>
+      <select id="ghPrivate"><option value="false">public</option><option value="true">private</option></select>
+      <input id="ghBranch" value="main"/>
+    </div>
+    <div class="row"><button id="ghPublishTpl" class="btn">Publish z szablonu</button></div>
+    <pre id="ghOut"></pre>
+  </section>
+
+  <section class="card">
+    <h3>🏷️ Tag / 📦 Release / 🐛 Issue</h3>
+    <div class="row"><input id="grOwner" placeholder="owner (opcj.)"/><input id="grRepo" placeholder="repo"/></div>
+    <div class="row"><input id="grTag" placeholder="tag (np. v1.0.0)"/><input id="grName" placeholder="release name (opcj.)"/></div>
+    <div class="row"><textarea id="grNotes" rows="3" placeholder="release notes (opcj.)"></textarea></div>
+    <div class="row">
+      <button id="btnTag" class="btn">Utwórz TAG</button>
+      <button id="btnRelease" class="btn">Utwórz RELEASE</button>
+      <input id="giTitle" placeholder="issue title"/>
+      <button id="btnIssue" class="btn">Utwórz ISSUE</button>
+    </div>
+    <pre id="grOut"></pre>
+  </section>
+
+  <section class="card">
+    <h3>🤖 AUTO flows</h3>
+    <div class="row">
+      <input id="autoRepo" placeholder="owner/name dla issues (np. henryk/ops)"/>
+      <button id="btnAutoHealth" class="btn">Health → Issues (auto)</button>
+    </div>
+    <div class="row">
+      <input id="autoProject" placeholder="project id (np. urf-core)"/>
+      <input id="autoRepo2" placeholder="owner/name (repo releasu)"/>
+      <input id="autoBase" placeholder="semver base (np. 1.0) (opcj.)"/>
+      <button id="btnAutoBump" class="btn">Bump → TAG → RELEASE</button>
+    </div>
+    <pre id="autoOut"></pre>
+  </section>
+
+  <section class="card">
+    <h3>📦 Asset Manifest (SHA-256)</h3>
+    <div class="row"><input id="amBase" placeholder="Base URL (CDN)"/></div>
+    <div class="row"><textarea id="amFiles" rows="4" placeholder="paths (po 1 w linii)&#10;models/ball.glb&#10;textures/pbr/grass.ktx2"></textarea></div>
+    <div class="row"><button id="amRun" class="btn">Generuj manifest</button></div>
+    <pre id="amOut"></pre>
+  </section>
+
+  <section class="card">
+    <h3>⚙️ System</h3>
+    <div class="row"><button id="pwaInstall" class="btn">Zainstaluj PWA</button><button id="clearCache" class="btn">Wyczyść cache</button></div>
+    <div class="row muted">UI: <code>10.0.0</code></div>
+  </section>
+</main>
+
+<script type="module">
+const $=s=>document.querySelector(s);
+
+// Login
+$("#loginBtn").onclick=()=>{ const ok=(($("#loginPass").value)||"")==="przyjaźń"; $("#loginStatus").textContent=ok?"✅ OK":"❌"; if(ok) localStorage.setItem("qdp-ui-logged","1"); };
+
+// Projekty
+async function loadProjects(){
+  const w=$("#projectList"); w.innerHTML="";
+  try{ const d=await fetch("/project.json",{cache:"no-store"}).then(r=>r.json());
+    (d.projects||[]).forEach(p=>{
+      const div=document.createElement("div"); div.className="item";
+      div.innerHTML=`<div><b>${p.name}</b> <span class="muted">(${p.type})</span></div>
+      <div class="muted">${p.desc||""}</div>
       <div class="row">
-        <select id="gfxPreset">
-          <option value="mobile">Mobile (lekko)</option>
-          <option value="high" selected>High (SSR/SSGI)</option>
-          <option value="ultra-rt">Ultra RT (WebGPU / Path Tracing)</option>
-        </select>
-      </div>
-      <div class="row">
-        <button id="gfxLoad" class="btn">Wczytaj</button>
-        <button id="gfxSaveGlobal" class="btn">Zapisz globalnie</button>
-        <button id="gfxSaveUser" class="btn">Zapisz dla mnie</button>
-      </div>
-      <small class="muted">Ultra-RT wymaga WebGPU. Inaczej fallback do High.</small>
-    </section>
+        ${p.entry?`<a class="btn" target="_blank" href="${p.entry}">▶ Otwórz</a>`:""}
+        ${p.deploy_url?`<a class="btn" target="_blank" href="${p.deploy_url}">☁ Deploy</a>`:""}
+        ${p.health_url?`<a class="btn" target="_blank" href="${p.health_url}">💓 Health</a>`:""}
+        ${p.repo?`<a class="btn" target="_blank" href="${p.repo}">📦 Repo</a>`:""}
+      </div>`;
+      w.appendChild(div);
+    });
+  }catch{ w.innerHTML=`<div class="item"><span class="muted">Brak /project.json</span></div>`; }
+}
+$("#projRefresh").onclick=loadProjects; loadProjects();
+$("#projHealthAll").onclick=async()=>{ const j=await fetch("/api/health/all").then(r=>r.json()).catch(()=>null); const o=$("#healthOut");o.hidden=false;o.textContent=j?JSON.stringify(j,null,2):"Błąd"; };
 
-  </main>
+// GFX
+function uid(){return([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16))}
+let USER_ID=localStorage.getItem("qdp-user-id"); if(!USER_ID){USER_ID="u-"+uid();localStorage.setItem("qdp-user-id",USER_ID)}
+const gfx=$("#gfxPreset");
+async function gfxLoad(id){ const q=id?`?id=${encodeURIComponent(id)}`:""; const j=await fetch(`/api/gfx/get${q}`).then(r=>r.json()).catch(()=>null); if(j&&j.ok&&j.preset) gfx.value=j.preset; }
+$("#gfxLoad").onclick=()=>gfxLoad(USER_ID);
+$("#gfxSaveGlobal").onclick=async()=>{ await fetch("/api/gfx/set",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({preset:gfx.value})}); alert("Zapisano globalnie"); };
+$("#gfxSaveUser").onclick=async()=>{ await fetch("/api/gfx/set",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({id:USER_ID,preset:gfx.value})}); alert("Zapisano dla Ciebie"); };
+gfxLoad(USER_ID).catch(()=>gfxLoad().catch(()=>{}));
 
-  <script type="module">
-    // === LOGIN ===
-    const PASS = "przyjaźń";
-    const loginBtn = document.getElementById("loginBtn");
-    loginBtn.onclick = () => {
-      const val = document.getElementById("loginPass").value;
-      if(val === PASS){
-        document.getElementById("loginStatus").textContent = "✅ Zalogowano!";
-      } else {
-        document.getElementById("loginStatus").textContent = "❌ Złe hasło.";
-      }
-    };
+// Templates / Generator
+async function loadTemplates(){ const j=await fetch("/api/templates/get",{cache:"no-store"}).then(r=>r.json()).catch(()=>null); const sel=$("#scTemplate"); sel.innerHTML=""; if(j&&j.ok){ for(const k of Object.keys(j.registry.templates)){ const o=document.createElement("option"); o.value=k; o.textContent=`${k} — ${j.registry.templates[k].title}`; sel.appendChild(o); } } else { const o=document.createElement("option"); o.value="game-urf-pro"; o.textContent="game-urf-pro — URF PRO"; sel.appendChild(o);} }
+$("#scSync").onclick=loadTemplates; loadTemplates();
+$("#scGet").onclick=async()=>{ const name=($("#scName").value||"").trim()||"My Project"; const template=$("#scTemplate").value; const r=await fetch("/api/scaffold/bootstrap",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({name,template})}); const b=await r.blob(); const u=URL.createObjectURL(b); const a=document.createElement("a"); a.href=u; a.download=name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"")+"-bootstrap.sh"; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u); };
 
-    // === PROJECTS ===
-    async function loadProjects(){
-      const res = await fetch("/project.json").then(r=>r.json()).catch(()=>({projects:[]}));
-      const ul = document.getElementById("projectList");
-      ul.innerHTML = "";
-      res.projects.forEach(p=>{
-        const li = document.createElement("li");
-        li.textContent = p.name + " — " + p.desc;
-        ul.appendChild(li);
-      });
-    }
-    document.getElementById("refreshBtn").onclick = loadProjects;
-    loadProjects();
+// Release
+$("#relGet").onclick=async()=>{ const p=($("#relProject").value||"").trim()||"global"; const j=await fetch(`/api/release/get?project=${encodeURIComponent(p)}`).then(r=>r.json()).catch(()=>null); $("#relOut").textContent=j?JSON.stringify(j,null,2):"Błąd"; };
+$("#relSet").onclick=async()=>{ const p=($("#relProject").value||"").trim()||"global"; const v=$("#relAssets").value; const r=await fetch("/api/release/set",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({project:p,assetsVersion:v,bump:true})}); $("#relOut").textContent=JSON.stringify(await r.json().catch(()=>null),null,2); };
 
-    // === CHAT (stub) ===
-    const chatLog = document.getElementById("chatLog");
-    document.getElementById("sendChat").onclick = () => {
-      const val = document.getElementById("chatInput").value;
-      chatLog.textContent += "\\n> " + val;
-      document.getElementById("chatInput").value = "";
-    };
+// Publish GH
+$("#ghPublishTpl").onclick=async()=>{
+  const owner=($("#ghOwner").value||"").trim(); const repo=($("#ghRepo").value||"").trim(); const template=$("#ghTemplate").value||null;
+  if(!repo){ alert("Podaj repo"); return; }
+  const body={owner,repo,private:($("#ghPrivate").value==="true"),branch:($("#ghBranch").value||"main")}; if(template) body.template=template;
+  const r=await fetch("/api/scaffold/publish",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)}); $("#ghOut").textContent=JSON.stringify(await r.json().catch(()=>null),null,2);
+};
 
-    // === GFX PRESETS ===
-    function uid(){ return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16)); }
-    let USER_ID = localStorage.getItem("qdp-user-id");
-    if(!USER_ID){ USER_ID = "u-"+uid(); localStorage.setItem("qdp-user-id", USER_ID); }
+// Tag / Release / Issue
+$("#btnTag").onclick=async()=>{ const owner=($("#grOwner").value||"").trim(); const repo=($("#grRepo").value||"").trim(); const tag=($("#grTag").value||"").trim(); if(!repo||!tag) return alert("repo + tag"); const r=await fetch("/api/github/tag",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({owner,repo,tag})}); $("#grOut").textContent=JSON.stringify(await r.json().catch(()=>null),null,2); };
+$("#btnRelease").onclick=async()=>{ const owner=($("#grOwner").value||"").trim(); const repo=($("#grRepo").value||"").trim(); const tag=($("#grTag").value||"").trim(); const name=($("#grName").value||"").trim(); const notes=$("#grNotes").value||""; if(!repo||!tag) return alert("repo + tag"); const r=await fetch("/api/github/release",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({owner,repo,tag,name,notes,generate_notes:true})}); $("#grOut").textContent=JSON.stringify(await r.json().catch(()=>null),null,2); };
+$("#btnIssue").onclick=async()=>{ const owner=($("#grOwner").value||"").trim(); const repo=($("#grRepo").value||"").trim(); const title=($("#giTitle").value||"").trim()||"Issue"; const r=await fetch("/api/github/issue",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({owner,repo,title,body:"Auto issue from dashboard",labels:["auto"]})}); $("#grOut").textContent=JSON.stringify(await r.json().catch(()=>null),null,2); };
 
-    const gfxSel = document.getElementById("gfxPreset");
-    async function gfxLoad(id){
-      const q = id ? `?id=${encodeURIComponent(id)}` : "";
-      const r = await fetch(`/api/gfx/get${q}`);
-      const j = await r.json();
-      if (j.ok && j.preset) gfxSel.value = j.preset;
-    }
-    async function gfxSaveGlobal(){
-      await fetch("/api/gfx/set", {
-        method:"POST", headers:{ "content-type":"application/json" },
-        body: JSON.stringify({ preset: gfxSel.value })
-      });
-      alert("Zapisano globalnie");
-    }
-    async function gfxSaveUser(){
-      await fetch("/api/gfx/set", {
-        method:"POST", headers:{ "content-type":"application/json" },
-        body: JSON.stringify({ id: USER_ID, preset: gfxSel.value })
-      });
-      alert("Zapisano dla Ciebie");
-    }
-    document.getElementById("gfxLoad").onclick = ()=> gfxLoad(USER_ID);
-    document.getElementById("gfxSaveGlobal").onclick = gfxSaveGlobal;
-    document.getElementById("gfxSaveUser").onclick = gfxSaveUser;
-    gfxLoad(USER_ID);
-  </script>
+// AUTO
+$("#btnAutoHealth").onclick=async()=>{ const repo=($("#autoRepo").value||"").trim(); if(!repo) return alert("owner/name"); const r=await fetch("/api/auto/health-to-issues",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({repo})}); $("#autoOut").textContent=JSON.stringify(await r.json().catch(()=>null),null,2); };
+$("#btnAutoBump").onclick=async()=>{ const project=($("#autoProject").value||"global").trim(); const repo=($("#autoRepo2").value||"").trim(); const semverBase=($("#autoBase").value||"").trim(); if(!repo) return alert("owner/name"); const r=await fetch("/api/auto/bump-tag-release",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({project,repo,semverBase})}); $("#autoOut").textContent=JSON.stringify(await r.json().catch(()=>null),null,2); };
+
+// PWA
+let promptEvt; addEventListener('beforeinstallprompt',e=>{e.preventDefault();promptEvt=e;});
+$("#pwaInstall").onclick=async()=>{ if(promptEvt){promptEvt.prompt();await promptEvt.userChoice;promptEvt=null;} else alert("Dodaj do ekranu głównego"); };
+$("#clearCache").onclick=async()=>{ if('caches'in window){ const names=await caches.keys(); await Promise.all(names.map(n=>caches.delete(n))); alert("Cache PWA wyczyszczony"); location.reload(); } };
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js').catch(()=>{}); }
+</script>
 </body>
 </html>
