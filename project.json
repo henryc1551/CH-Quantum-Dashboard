@@ -1,0 +1,254 @@
+{
+  "version": "1.0.0",
+  "updatedAt": 1756903200000,
+  "projects": [
+    {
+      "id": "urf-core",
+      "name": "Ultra Real Football",
+      "slug": "ultra-real-football",
+      "type": "game",
+      "desc": "Główna gra — boisko 11v11, tryby szybkie i liga. Presety Mobile/High/Ultra-RT.",
+      "entry": "https://twoja-domena/urf/",
+      "repo": "https://github.com/henryc1551/ultra-real-football",
+      "deploy_url": "https://ultra-real-football.deno.dev",
+      "health_url": "https://ultra-real-football.deno.dev/healthz",
+      "api_base": "https://ultra-real-football.deno.dev/api",
+      "assets_base": "https://cdn.twoja-domena/urf/",
+      "platforms": ["web","android-webview","ios-webview","pc"],
+      "gfx_default": "high",
+      "payments": {
+        "provider": "stripe",
+        "product_ids": {
+          "season_pass": "prod_SEASONPASS_URF",
+          "kit_pack": "prod_KITPACK_URF"
+        }
+      },
+      "oauth_required": [],
+      "webhooks": {
+        "ci_webhook": "https://ci.twoja-domena/hooks/urf",
+        "deploy_webhook": "https://api.deno.com/webhooks/urf"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "urf-street",
+      "name": "Ultra Real Street Football",
+      "slug": "ultra-real-street",
+      "type": "game",
+      "desc": "Ulice 3v3/5v5, nacisk na triki, małe boiska. Szybkie mecze na mobile.",
+      "entry": "https://twoja-domena/urf-street/",
+      "repo": "https://github.com/henryc1551/ultra-real-street",
+      "deploy_url": "https://ultra-real-street.deno.dev",
+      "health_url": "https://ultra-real-street.deno.dev/healthz",
+      "api_base": "https://ultra-real-street.deno.dev/api",
+      "assets_base": "https://cdn.twoja-domena/urf-street/",
+      "platforms": ["web","android-webview","ios-webview","pc"],
+      "gfx_default": "high",
+      "payments": {
+        "provider": "stripe",
+        "product_ids": {
+          "street_cosmetics": "prod_COSM_STREET",
+          "arena_pack": "prod_ARENA_PACK"
+        }
+      },
+      "oauth_required": [],
+      "webhooks": {
+        "ci_webhook": "https://ci.twoja-domena/hooks/urf-street",
+        "deploy_webhook": "https://api.deno.com/webhooks/urf-street"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "urf-manager",
+      "name": "Ultra Real Manager",
+      "slug": "ultra-real-manager",
+      "type": "game",
+      "desc": "Menedżer piłkarski — scouting, kontrakty, taktyka, liga online.",
+      "entry": "https://twoja-domena/urf-manager/",
+      "repo": "https://github.com/henryc1551/ultra-real-manager",
+      "deploy_url": "https://ultra-real-manager.deno.dev",
+      "health_url": "https://ultra-real-manager.deno.dev/healthz",
+      "api_base": "https://ultra-real-manager.deno.dev/api",
+      "assets_base": "https://cdn.twoja-domena/urf-manager/",
+      "platforms": ["web","pc"],
+      "gfx_default": "mobile",
+      "payments": {
+        "provider": "stripe",
+        "product_ids": {
+          "pro_tools": "prod_MANAGER_PRO",
+          "season_slot": "prod_MANAGER_SEASON"
+        }
+      },
+      "oauth_required": [],
+      "webhooks": {
+        "ci_webhook": "https://ci.twoja-domena/hooks/urf-manager",
+        "deploy_webhook": "https://api.deno.com/webhooks/urf-manager"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "urf-women",
+      "name": "Ultra Real Women Football",
+      "slug": "ultra-real-women",
+      "type": "game",
+      "desc": "Pełnoprawny tryb kobiecego futbolu z dedykowanymi ligami i strojami.",
+      "entry": "https://twoja-domena/urf-women/",
+      "repo": "https://github.com/henryc1551/ultra-real-women",
+      "deploy_url": "https://ultra-real-women.deno.dev",
+      "health_url": "https://ultra-real-women.deno.dev/healthz",
+      "api_base": "https://ultra-real-women.deno.dev/api",
+      "assets_base": "https://cdn.twoja-domena/urf-women/",
+      "platforms": ["web","android-webview","ios-webview","pc"],
+      "gfx_default": "high",
+      "payments": {
+        "provider": "stripe",
+        "product_ids": {
+          "league_entry": "prod_URF_W_LEAGUE",
+          "kit_pack": "prod_URF_W_KITS"
+        }
+      },
+      "oauth_required": [],
+      "webhooks": {
+        "ci_webhook": "https://ci.twoja-domena/hooks/urf-women",
+        "deploy_webhook": "https://api.deno.com/webhooks/urf-women"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "urf-legends",
+      "name": "Ultra Real Legends (UGC)",
+      "slug": "ultra-real-legends",
+      "type": "game",
+      "desc": "Tryb legend tworzonych przez graczy (UGC) — brak prawdziwych postaci/IP.",
+      "entry": "https://twoja-domena/urf-legends/",
+      "repo": "https://github.com/henryc1551/ultra-real-legends",
+      "deploy_url": "https://ultra-real-legends.deno.dev",
+      "health_url": "https://ultra-real-legends.deno.dev/healthz",
+      "api_base": "https://ultra-real-legends.deno.dev/api",
+      "assets_base": "https://cdn.twoja-domena/urf-legends/",
+      "platforms": ["web","pc"],
+      "gfx_default": "high",
+      "legal": {
+        "ugc_only": true,
+        "disclaimer": "Wszelkie postacie są fikcyjne i tworzone przez użytkowników (UGC)."
+      },
+      "payments": {
+        "provider": "stripe",
+        "product_ids": {
+          "creator_pass": "prod_LEGENDS_CREATOR"
+        }
+      },
+      "oauth_required": [],
+      "webhooks": {
+        "ci_webhook": "https://ci.twoja-domena/hooks/urf-legends",
+        "deploy_webhook": "https://api.deno.com/webhooks/urf-legends"
+      },
+      "status": "planned"
+    },
+    {
+      "id": "rocket-chat",
+      "name": "Rocket.Chat (Team Hub)",
+      "slug": "rocket-chat",
+      "type": "tool",
+      "desc": "Team chat/self-host. Połączone z dashboardem (SSO/OAuth).",
+      "entry": "https://chat.twoja-domena/",
+      "repo": "https://github.com/RocketChat/Rocket.Chat",
+      "deploy_url": "https://chat.twoja-domena/",
+      "health_url": "https://chat.twoja-domena/api/info",
+      "platforms": ["web","pc","mobile"],
+      "integrations": {
+        "oauth": ["OPENAI_API_KEY","GITHUB_CLIENT_ID","GITHUB_CLIENT_SECRET"]
+      },
+      "status": "external"
+    },
+    {
+      "id": "leon-cloud",
+      "name": "LeonCloudQ (Storage/CDN)",
+      "slug": "leon-cloud",
+      "type": "infra",
+      "desc": "CDN i storage dla gier/app (Cloudflare R2/S3).",
+      "entry": "https://cdn.twoja-domena/",
+      "repo": "https://github.com/henryc1551/leon-cloudq",
+      "deploy_url": "https://cdn.twoja-domena/",
+      "health_url": "https://cdn.twoja-domena/robots.txt",
+      "platforms": ["infra"],
+      "storage": {
+        "provider": "r2",
+        "bucket": "games-assets",
+        "public_base": "https://cdn.twoja-domena"
+      },
+      "status": "active"
+    },
+    {
+      "id": "vid-studio",
+      "name": "Video Studio (Short/Long)",
+      "slug": "video-studio",
+      "type": "tool",
+      "desc": "Tworzenie shortów i dłuższych wideo z lektorem/napisami. Publikacja: YouTube/TikTok.",
+      "entry": "https://twoja-domena/video-studio/",
+      "repo": "https://github.com/henryc1551/video-studio",
+      "deploy_url": "https://video-studio.deno.dev",
+      "health_url": "https://video-studio.deno.dev/healthz",
+      "api_base": "https://video-studio.deno.dev/api",
+      "platforms": ["web","pc"],
+      "oauth_required": ["YOUTUBE_CLIENT_ID","YOUTUBE_CLIENT_SECRET","YOUTUBE_REDIRECT_URI","TIKTOK_CLIENT_KEY","TIKTOK_CLIENT_SECRET","TIKTOK_REDIRECT_URI"],
+      "status": "planned"
+    },
+    {
+      "id": "img-restorer",
+      "name": "Image Restorer (AI)",
+      "slug": "image-restorer",
+      "type": "tool",
+      "desc": "Naprawa starych zdjęć, podbijanie jakości (AI, super-res, de-noise).",
+      "entry": "https://twoja-domena/image-restorer/",
+      "repo": "https://github.com/henryc1551/image-restorer",
+      "deploy_url": "https://image-restorer.deno.dev",
+      "health_url": "https://image-restorer.deno.dev/healthz",
+      "platforms": ["web","mobile","pc"],
+      "status": "planned"
+    },
+    {
+      "id": "rt-translator",
+      "name": "Real-time Translator",
+      "slug": "rt-translator",
+      "type": "tool",
+      "desc": "Tłumacz w czasie rzeczywistym (rozmowy/app, UI PL/EN).",
+      "entry": "https://twoja-domena/rt-translator/",
+      "repo": "https://github.com/henryc1551/rt-translator",
+      "deploy_url": "https://rt-translator.deno.dev",
+      "health_url": "https://rt-translator.deno.dev/healthz",
+      "platforms": ["web","mobile"],
+      "status": "planned"
+    },
+    {
+      "id": "mkt-campaign-crypto",
+      "name": "Marketing: Crypto Campaign",
+      "slug": "mkt-crypto",
+      "type": "campaign",
+      "desc": "Kampania afiliacyjna (shorty, landing, UTM, auto-publikacje).",
+      "entry": "https://twoja-domena/mkt-crypto/",
+      "repo": "https://github.com/henryc1551/mkt-crypto",
+      "deploy_url": "https://mkt-crypto.deno.dev",
+      "health_url": "https://mkt-crypto.deno.dev/healthz",
+      "platforms": ["web","mobile"],
+      "status": "planned",
+      "marketing": {
+        "utm_source": "dashboard",
+        "utm_campaign": "crypto-global",
+        "landing_url": "https://twoja-domena/mkt-crypto/landing?ref=TWÓJ_LINK"
+      }
+    }
+  ],
+  "globals": {
+    "cdn_public_base": "https://cdn.twoja-domena",
+    "kv_prefix": "qdp",
+    "default_preset": "high",
+    "stripe_publishable_key": "pk_live_XXXXXXXXXXXXXXXX",
+    "feature_flags": {
+      "ai_chat": true,
+      "image_gen": true,
+      "web_push": true,
+      "payments": true
+    }
+  }
+}
