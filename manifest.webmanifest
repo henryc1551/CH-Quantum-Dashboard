@@ -1,12 +1,13 @@
 {
   "name": "Quantum Dashboard Pro",
-  "short_name": "LeonQ",
-  "start_url": "/?v=6.6.0",
+  "short_name": "QDP",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#FFD700",
+  "background_color": "#0d0f13",
+  "theme_color": "#0d0f13",
   "icons": [
-    { "src": "logo-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "logo-512.png", "sizes": "512x512", "type": "image/png" }
+    { "src": "/logo-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/logo-512.png", "type": "image/png", "sizes": "512x512" },
+    { "src": "/logo-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
   ]
 }
