@@ -1,254 +1,652 @@
 {
-  "version": "1.0.0",
-  "updatedAt": 1756903200000,
   "projects": [
     {
       "id": "urf-core",
-      "name": "Ultra Real Football",
-      "slug": "ultra-real-football",
+      "name": "Ultra Real Football — Core",
       "type": "game",
-      "desc": "Główna gra — boisko 11v11, tryby szybkie i liga. Presety Mobile/High/Ultra-RT.",
-      "entry": "https://twoja-domena/urf/",
-      "repo": "https://github.com/henryc1551/ultra-real-football",
-      "deploy_url": "https://ultra-real-football.deno.dev",
-      "health_url": "https://ultra-real-football.deno.dev/healthz",
-      "api_base": "https://ultra-real-football.deno.dev/api",
-      "assets_base": "https://cdn.twoja-domena/urf/",
-      "platforms": ["web","android-webview","ios-webview","pc"],
-      "gfx_default": "high",
-      "payments": {
-        "provider": "stripe",
-        "product_ids": {
-          "season_pass": "prod_SEASONPASS_URF",
-          "kit_pack": "prod_KITPACK_URF"
-        }
+      "desc": "Ultra Real Football — Core — pełny PRO build z ray tracing, stadionami i zestawami drużyn.",
+      "entry": "https://urf-core.deno.dev/",
+      "deploy_url": "https://urf-core.deno.dev/",
+      "health_url": "https://urf-core.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-core",
+      "tags": ["pro", "game", "football", "rt", "stadium", "teams"],
+      "integrations": {
+        "payments": ["stripe", "paypal", "coinbase"],
+        "auth": ["token", "oauth"],
+        "social": ["tiktok", "youtube", "twitch"],
+        "ci": ["github-actions", "deno-deploy"]
       },
-      "oauth_required": [],
-      "webhooks": {
-        "ci_webhook": "https://ci.twoja-domena/hooks/urf",
-        "deploy_webhook": "https://api.deno.com/webhooks/urf"
-      },
-      "status": "planned"
+      "gfx_preset": "ultra-rt",
+      "assets": {
+        "base": "https://cdn.quantum-assets.example/urf-core/v2",
+        "files": [
+          "models/ball.glb",
+          "models/stadium.glb",
+          "models/goal.glb",
+          "models/referee.glb",
+          "textures/pbr/grass.ktx2",
+          "textures/pbr/ball_albedo.ktx2",
+          "textures/pbr/ball_normal.ktx2",
+          "textures/pbr/ball_roughness.ktx2",
+          "lightmaps/stadium_light.exr",
+          "env/field_env.hdr",
+          "audio/whistle.ogg",
+          "audio/crowd_loop.ogg",
+          "audio/commentary_en.ogg",
+          "ui/icons/sound-on.svg",
+          "ui/icons/sound-off.svg",
+          "ui/hud/scoreboard.glb",
+          "ui/hud/timer.glb",
+          "rt/materials/ball.bsdf.json",
+          "rt/materials/grass.bsdf.json",
+          "rt/sky/clear_sky.hdr"
+        ]
+      }
     },
     {
       "id": "urf-street",
       "name": "Ultra Real Street Football",
-      "slug": "ultra-real-street",
       "type": "game",
-      "desc": "Ulice 3v3/5v5, nacisk na triki, małe boiska. Szybkie mecze na mobile.",
-      "entry": "https://twoja-domena/urf-street/",
-      "repo": "https://github.com/henryc1551/ultra-real-street",
-      "deploy_url": "https://ultra-real-street.deno.dev",
-      "health_url": "https://ultra-real-street.deno.dev/healthz",
-      "api_base": "https://ultra-real-street.deno.dev/api",
-      "assets_base": "https://cdn.twoja-domena/urf-street/",
-      "platforms": ["web","android-webview","ios-webview","pc"],
-      "gfx_default": "high",
-      "payments": {
-        "provider": "stripe",
-        "product_ids": {
-          "street_cosmetics": "prod_COSM_STREET",
-          "arena_pack": "prod_ARENA_PACK"
-        }
+      "desc": "Dynamiczna gra uliczna w stylu futsalu — rozgrywka na boiskach miejskich, w halach i freestyle.",
+      "entry": "https://urf-street.deno.dev/",
+      "deploy_url": "https://urf-street.deno.dev/",
+      "health_url": "https://urf-street.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-street",
+      "tags": ["pro", "game", "street", "freestyle"],
+      "integrations": {
+        "payments": ["stripe", "paypal"],
+        "auth": ["token"],
+        "social": ["tiktok", "youtube"],
+        "ci": ["github-actions", "deno-deploy"]
       },
-      "oauth_required": [],
-      "webhooks": {
-        "ci_webhook": "https://ci.twoja-domena/hooks/urf-street",
-        "deploy_webhook": "https://api.deno.com/webhooks/urf-street"
-      },
-      "status": "planned"
+      "gfx_preset": "high",
+      "assets": {
+        "base": "https://cdn.quantum-assets.example/urf-street/v2",
+        "files": [
+          "models/street_court.glb",
+          "models/fence.glb",
+          "textures/pbr/asphalt.ktx2",
+          "textures/pbr/wall.ktx2",
+          "audio/street_crowd.ogg",
+          "audio/beat_loop.ogg"
+        ]
+      }
     },
     {
       "id": "urf-manager",
-      "name": "Ultra Real Manager",
-      "slug": "ultra-real-manager",
+      "name": "Ultra Real Football — Manager",
       "type": "game",
-      "desc": "Menedżer piłkarski — scouting, kontrakty, taktyka, liga online.",
-      "entry": "https://twoja-domena/urf-manager/",
-      "repo": "https://github.com/henryc1551/ultra-real-manager",
-      "deploy_url": "https://ultra-real-manager.deno.dev",
-      "health_url": "https://ultra-real-manager.deno.dev/healthz",
-      "api_base": "https://ultra-real-manager.deno.dev/api",
-      "assets_base": "https://cdn.twoja-domena/urf-manager/",
-      "platforms": ["web","pc"],
-      "gfx_default": "mobile",
-      "payments": {
-        "provider": "stripe",
-        "product_ids": {
-          "pro_tools": "prod_MANAGER_PRO",
-          "season_slot": "prod_MANAGER_SEASON"
-        }
+      "desc": "Symulacja menedżerska z transferami, kontraktami, stadionami i budowaniem drużyn.",
+      "entry": "https://urf-manager.deno.dev/",
+      "deploy_url": "https://urf-manager.deno.dev/",
+      "health_url": "https://urf-manager.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-manager",
+      "tags": ["pro", "game", "manager", "simulation"],
+      "integrations": {
+        "payments": ["stripe", "paypal"],
+        "auth": ["token"],
+        "social": ["youtube"],
+        "ci": ["github-actions", "deno-deploy"]
       },
-      "oauth_required": [],
-      "webhooks": {
-        "ci_webhook": "https://ci.twoja-domena/hooks/urf-manager",
-        "deploy_webhook": "https://api.deno.com/webhooks/urf-manager"
-      },
-      "status": "planned"
+      "gfx_preset": "medium",
+      "assets": {
+        "base": "https://cdn.quantum-assets.example/urf-manager/v2",
+        "files": [
+          "models/office.glb",
+          "models/player_cards.glb",
+          "ui/icons/strategy.svg",
+          "ui/icons/transfer.svg",
+          "ui/icons/contract.svg"
+        ]
+      }
     },
     {
       "id": "urf-women",
       "name": "Ultra Real Women Football",
-      "slug": "ultra-real-women",
       "type": "game",
-      "desc": "Pełnoprawny tryb kobiecego futbolu z dedykowanymi ligami i strojami.",
-      "entry": "https://twoja-domena/urf-women/",
-      "repo": "https://github.com/henryc1551/ultra-real-women",
-      "deploy_url": "https://ultra-real-women.deno.dev",
-      "health_url": "https://ultra-real-women.deno.dev/healthz",
-      "api_base": "https://ultra-real-women.deno.dev/api",
-      "assets_base": "https://cdn.twoja-domena/urf-women/",
-      "platforms": ["web","android-webview","ios-webview","pc"],
-      "gfx_default": "high",
-      "payments": {
-        "provider": "stripe",
-        "product_ids": {
-          "league_entry": "prod_URF_W_LEAGUE",
-          "kit_pack": "prod_URF_W_KITS"
-        }
+      "desc": "Pełna edycja kobiecej piłki nożnej — ligi, reprezentacje i tryb mistrzostw.",
+      "entry": "https://urf-women.deno.dev/",
+      "deploy_url": "https://urf-women.deno.dev/",
+      "health_url": "https://urf-women.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-women",
+      "tags": ["pro", "game", "women", "global"],
+      "integrations": {
+        "payments": ["stripe", "paypal"],
+        "auth": ["token"],
+        "social": ["tiktok", "youtube"],
+        "ci": ["github-actions", "deno-deploy"]
       },
-      "oauth_required": [],
-      "webhooks": {
-        "ci_webhook": "https://ci.twoja-domena/hooks/urf-women",
-        "deploy_webhook": "https://api.deno.com/webhooks/urf-women"
-      },
-      "status": "planned"
+      "gfx_preset": "high",
+      "assets": {
+        "base": "https://cdn.quantum-assets.example/urf-women/v2",
+        "files": [
+          "models/ball.glb",
+          "models/stadium_women.glb",
+          "textures/pbr/grass.ktx2",
+          "audio/whistle.ogg",
+          "audio/crowd_loop.ogg"
+        ]
+      }
     },
     {
       "id": "urf-legends",
-      "name": "Ultra Real Legends (UGC)",
-      "slug": "ultra-real-legends",
+      "name": "Ultra Real Football — Legends",
       "type": "game",
-      "desc": "Tryb legend tworzonych przez graczy (UGC) — brak prawdziwych postaci/IP.",
-      "entry": "https://twoja-domena/urf-legends/",
-      "repo": "https://github.com/henryc1551/ultra-real-legends",
-      "deploy_url": "https://ultra-real-legends.deno.dev",
-      "health_url": "https://ultra-real-legends.deno.dev/healthz",
-      "api_base": "https://ultra-real-legends.deno.dev/api",
-      "assets_base": "https://cdn.twoja-domena/urf-legends/",
-      "platforms": ["web","pc"],
-      "gfx_default": "high",
-      "legal": {
-        "ugc_only": true,
-        "disclaimer": "Wszelkie postacie są fikcyjne i tworzone przez użytkowników (UGC)."
-      },
-      "payments": {
-        "provider": "stripe",
-        "product_ids": {
-          "creator_pass": "prod_LEGENDS_CREATOR"
-        }
-      },
-      "oauth_required": [],
-      "webhooks": {
-        "ci_webhook": "https://ci.twoja-domena/hooks/urf-legends",
-        "deploy_webhook": "https://api.deno.com/webhooks/urf-legends"
-      },
-      "status": "planned"
-    },
-    {
-      "id": "rocket-chat",
-      "name": "Rocket.Chat (Team Hub)",
-      "slug": "rocket-chat",
-      "type": "tool",
-      "desc": "Team chat/self-host. Połączone z dashboardem (SSO/OAuth).",
-      "entry": "https://chat.twoja-domena/",
-      "repo": "https://github.com/RocketChat/Rocket.Chat",
-      "deploy_url": "https://chat.twoja-domena/",
-      "health_url": "https://chat.twoja-domena/api/info",
-      "platforms": ["web","pc","mobile"],
+      "desc": "Tryb legend piłki nożnej z postaciami historycznymi oraz stylizowanymi graczami retro.",
+      "entry": "https://urf-legends.deno.dev/",
+      "deploy_url": "https://urf-legends.deno.dev/",
+      "health_url": "https://urf-legends.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-legends",
+      "tags": ["pro", "game", "retro", "legends"],
       "integrations": {
-        "oauth": ["OPENAI_API_KEY","GITHUB_CLIENT_ID","GITHUB_CLIENT_SECRET"]
+        "payments": ["stripe"],
+        "auth": ["token"],
+        "social": ["youtube"],
+        "ci": ["github-actions", "deno-deploy"]
       },
-      "status": "external"
-    },
-    {
-      "id": "leon-cloud",
-      "name": "LeonCloudQ (Storage/CDN)",
-      "slug": "leon-cloud",
-      "type": "infra",
-      "desc": "CDN i storage dla gier/app (Cloudflare R2/S3).",
-      "entry": "https://cdn.twoja-domena/",
-      "repo": "https://github.com/henryc1551/leon-cloudq",
-      "deploy_url": "https://cdn.twoja-domena/",
-      "health_url": "https://cdn.twoja-domena/robots.txt",
-      "platforms": ["infra"],
-      "storage": {
-        "provider": "r2",
-        "bucket": "games-assets",
-        "public_base": "https://cdn.twoja-domena"
-      },
-      "status": "active"
-    },
-    {
-      "id": "vid-studio",
-      "name": "Video Studio (Short/Long)",
-      "slug": "video-studio",
-      "type": "tool",
-      "desc": "Tworzenie shortów i dłuższych wideo z lektorem/napisami. Publikacja: YouTube/TikTok.",
-      "entry": "https://twoja-domena/video-studio/",
-      "repo": "https://github.com/henryc1551/video-studio",
-      "deploy_url": "https://video-studio.deno.dev",
-      "health_url": "https://video-studio.deno.dev/healthz",
-      "api_base": "https://video-studio.deno.dev/api",
-      "platforms": ["web","pc"],
-      "oauth_required": ["YOUTUBE_CLIENT_ID","YOUTUBE_CLIENT_SECRET","YOUTUBE_REDIRECT_URI","TIKTOK_CLIENT_KEY","TIKTOK_CLIENT_SECRET","TIKTOK_REDIRECT_URI"],
-      "status": "planned"
-    },
-    {
-      "id": "img-restorer",
-      "name": "Image Restorer (AI)",
-      "slug": "image-restorer",
-      "type": "tool",
-      "desc": "Naprawa starych zdjęć, podbijanie jakości (AI, super-res, de-noise).",
-      "entry": "https://twoja-domena/image-restorer/",
-      "repo": "https://github.com/henryc1551/image-restorer",
-      "deploy_url": "https://image-restorer.deno.dev",
-      "health_url": "https://image-restorer.deno.dev/healthz",
-      "platforms": ["web","mobile","pc"],
-      "status": "planned"
-    },
-    {
-      "id": "rt-translator",
-      "name": "Real-time Translator",
-      "slug": "rt-translator",
-      "type": "tool",
-      "desc": "Tłumacz w czasie rzeczywistym (rozmowy/app, UI PL/EN).",
-      "entry": "https://twoja-domena/rt-translator/",
-      "repo": "https://github.com/henryc1551/rt-translator",
-      "deploy_url": "https://rt-translator.deno.dev",
-      "health_url": "https://rt-translator.deno.dev/healthz",
-      "platforms": ["web","mobile"],
-      "status": "planned"
-    },
-    {
-      "id": "mkt-campaign-crypto",
-      "name": "Marketing: Crypto Campaign",
-      "slug": "mkt-crypto",
-      "type": "campaign",
-      "desc": "Kampania afiliacyjna (shorty, landing, UTM, auto-publikacje).",
-      "entry": "https://twoja-domena/mkt-crypto/",
-      "repo": "https://github.com/henryc1551/mkt-crypto",
-      "deploy_url": "https://mkt-crypto.deno.dev",
-      "health_url": "https://mkt-crypto.deno.dev/healthz",
-      "platforms": ["web","mobile"],
-      "status": "planned",
-      "marketing": {
-        "utm_source": "dashboard",
-        "utm_campaign": "crypto-global",
-        "landing_url": "https://twoja-domena/mkt-crypto/landing?ref=TWÓJ_LINK"
+      "gfx_preset": "retro",
+      "assets": {
+        "base": "https://cdn.quantum-assets.example/urf-legends/v2",
+        "files": [
+          "models/stadium_retro.glb",
+          "textures/pbr/retro_kit.ktx2",
+          "audio/retro_crowd.ogg"
+        ]
       }
-    }
-  ],
-  "globals": {
-    "cdn_public_base": "https://cdn.twoja-domena",
-    "kv_prefix": "qdp",
-    "default_preset": "high",
-    "stripe_publishable_key": "pk_live_XXXXXXXXXXXXXXXX",
-    "feature_flags": {
-      "ai_chat": true,
-      "image_gen": true,
-      "web_push": true,
-      "payments": true
-    }
-  }
+    },
+    {
+      "id": "urf-training",
+      "name": "Ultra Real Training Grounds",
+      "type": "game",
+      "desc": "Moduł treningowy z ćwiczeniami dryblingu, strzałów i taktyki.",
+      "entry": "https://urf-training.deno.dev/",
+      "deploy_url": "https://urf-training.deno.dev/",
+      "health_url": "https://urf-training.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-training",
+      "tags": ["pro", "training", "football"],
+      "integrations": {
+        "payments": ["stripe"],
+        "auth": ["token"],
+        "social": ["youtube"],
+        "ci": ["github-actions", "deno-deploy"]
+      },
+      "gfx_preset": "medium",
+      "assets": {
+        "base": "https://cdn.quantum-assets.example/urf-training/v2",
+        "files": [
+          "models/training_ground.glb",
+          "ui/icons/cones.svg",
+          "ui/icons/training_plan.svg",
+          "audio/whistle.ogg"
+        ]
+      }
+    },
+    {
+      "id": "urf-stadium-classic",
+      "name": "URF Stadium — Classic",
+      "type": "game",
+      "desc": "Klasyczny preset stadionu: czysty dzień, neutralne oświetlenie.",
+      "entry": "https://urf-stadium-classic.deno.dev/",
+      "deploy_url": "https://urf-stadium-classic.deno.dev/",
+      "health_url": "https://urf-stadium-classic.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-stadium-classic",
+      "tags": ["pro","game","stadium","ready"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/urf-stadium-classic/v2", "files":["models/stadium.glb","textures/pbr/grass.ktx2","env/field_env.hdr","audio/crowd_loop.ogg"] }
+    },
+    {
+      "id": "urf-stadium-night",
+      "name": "URF Stadium — Night",
+      "type": "game",
+      "desc": "Nocny preset stadionu: reflektory, chłodna kolorystyka, RT sky.",
+      "entry": "https://urf-stadium-night.deno.dev/",
+      "deploy_url": "https://urf-stadium-night.deno.dev/",
+      "health_url": "https://urf-stadium-night.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-stadium-night",
+      "tags": ["pro","game","stadium","night","rt"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "ultra-rt",
+      "assets": { "base":"https://cdn.quantum-assets.example/urf-stadium-night/v2", "files":["models/stadium.glb","lightmaps/stadium_light.exr","env/night_sky.hdr","rt/sky/clear_sky.hdr","audio/crowd_loop.ogg"] }
+    },
+    {
+      "id": "urf-stadium-rain",
+      "name": "URF Stadium — Rain",
+      "type": "game",
+      "desc": "Deszczowy preset stadionu: mokra murawa, pochmurne niebo.",
+      "entry": "https://urf-stadium-rain.deno.dev/",
+      "deploy_url": "https://urf-stadium-rain.deno.dev/",
+      "health_url": "https://urf-stadium-rain.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-stadium-rain",
+      "tags": ["pro","game","stadium","weather"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/urf-stadium-rain/v2", "files":["models/stadium.glb","textures/pbr/wet_grass.ktx2","env/rain_clouds.hdr","audio/crowd_loop.ogg"] }
+    },
+    {
+      "id": "urf-stadium-snow",
+      "name": "URF Stadium — Snow",
+      "type": "game",
+      "desc": "Zimowy preset stadionu: śnieg, RT sky dla jasnych odbić.",
+      "entry": "https://urf-stadium-snow.deno.dev/",
+      "deploy_url": "https://urf-stadium-snow.deno.dev/",
+      "health_url": "https://urf-stadium-snow.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-stadium-snow",
+      "tags": ["pro","game","stadium","snow","rt"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "ultra-rt",
+      "assets": { "base":"https://cdn.quantum-assets.example/urf-stadium-snow/v2", "files":["models/stadium.glb","textures/pbr/snow.ktx2","env/snow_field.hdr","rt/sky/clear_sky.hdr","audio/crowd_loop.ogg"] }
+    },
+    {
+      "id": "urf-stadium-dawn",
+      "name": "URF Stadium — Dawn",
+      "type": "game",
+      "desc": "Poranek: ciepłe światło, długie cienie, spokojny klimat.",
+      "entry": "https://urf-stadium-dawn.deno.dev/",
+      "deploy_url": "https://urf-stadium-dawn.deno.dev/",
+      "health_url": "https://urf-stadium-dawn.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-stadium-dawn",
+      "tags": ["pro","game","stadium","dawn"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/urf-stadium-dawn/v2", "files":["models/stadium.glb","env/dawn_sky.hdr","audio/crowd_loop.ogg"] }
+    },
+    {
+      "id": "urf-stadium-dusk",
+      "name": "URF Stadium — Dusk",
+      "type": "game",
+      "desc": "Zmierzch: ciepło-zimne niebo, miękkie światło, klimat wieczoru.",
+      "entry": "https://urf-stadium-dusk.deno.dev/",
+      "deploy_url": "https://urf-stadium-dusk.deno.dev/",
+      "health_url": "https://urf-stadium-dusk.deno.dev/healthz",
+      "repo": "https://github.com/henryk/urf-stadium-dusk",
+      "tags": ["pro","game","stadium","dusk"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/urf-stadium-dusk/v2", "files":["models/stadium.glb","env/dusk_sky.hdr","audio/crowd_loop.ogg"] }
+    },
+
+    /* ---------- Training Modes 01..15 ---------- */
+    { "id":"urf-training-01","name":"URF Training Mode 01","type":"game","desc":"Drybling: pachołki podstawowe","entry":"https://urf-training-01.deno.dev/","deploy_url":"https://urf-training-01.deno.dev/","health_url":"https://urf-training-01.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-01","tags":["pro","training","skills"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-training-01/v2","files":["models/cones_basic.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-02","name":"URF Training Mode 02","type":"game","desc":"Podania: trójkąty i ściany","entry":"https://urf-training-02.deno.dev/","deploy_url":"https://urf-training-02.deno.dev/","health_url":"https://urf-training-02.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-02","tags":["pro","training","passing"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-training-02/v2","files":["models/wall_pass.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-03","name":"URF Training Mode 03","type":"game","desc":"Strzały: różne kąty i odległości","entry":"https://urf-training-03.deno.dev/","deploy_url":"https://urf-training-03.deno.dev/","health_url":"https://urf-training-03.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-03","tags":["pro","training","shooting"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-training-03/v2","files":["models/goal.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-04","name":"URF Training Mode 04","type":"game","desc":"Pressing i odbiór","entry":"https://urf-training-04.deno.dev/","deploy_url":"https://urf-training-04.deno.dev/","health_url":"https://urf-training-04.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-04","tags":["pro","training","defense"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-training-04/v2","files":["models/defense_set.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-05","name":"URF Training Mode 05","type":"game","desc":"Stałe fragmenty: rzuty wolne (RT sky)","entry":"https://urf-training-05.deno.dev/","deploy_url":"https://urf-training-05.deno.dev/","health_url":"https://urf-training-05.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-05","tags":["pro","training","set-pieces","rt"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"ultra-rt","assets":{"base":"https://cdn.quantum-assets.example/urf-training-05/v2","files":["models/wall.glb","rt/sky/clear_sky.hdr","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-06","name":"URF Training Mode 06","type":"game","desc":"Koordynacja i szybkość","entry":"https://urf-training-06.deno.dev/","deploy_url":"https://urf-training-06.deno.dev/","health_url":"https://urf-training-06.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-06","tags":["pro","training","agility"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-training-06/v2","files":["models/ladder.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-07","name":"URF Training Mode 07","type":"game","desc":"Taktyka: ustawienia i ruch bez piłki","entry":"https://urf-training-07.deno.dev/","deploy_url":"https://urf-training-07.deno.dev/","health_url":"https://urf-training-07.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-07","tags":["pro","training","tactics"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-training-07/v2","files":["ui/boards/tactics.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-08","name":"URF Training Mode 08","type":"game","desc":"Gra 3v3 / 5v5 — mini-boiska","entry":"https://urf-training-08.deno.dev/","deploy_url":"https://urf-training-08.deno.dev/","health_url":"https://urf-training-08.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-08","tags":["pro","training","small-sided"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-training-08/v2","files":["models/small_pitch.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-09","name":"URF Training Mode 09","type":"game","desc":"Wytrzymałość z piłką","entry":"https://urf-training-09.deno.dev/","deploy_url":"https://urf-training-09.deno.dev/","health_url":"https://urf-training-09.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-09","tags":["pro","training","stamina"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-training-09/v2","files":["models/cones_basic.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-10","name":"URF Training Mode 10","type":"game","desc":"Szybkie przejścia ofensywne","entry":"https://urf-training-10.deno.dev/","deploy_url":"https://urf-training-10.deno.dev/","health_url":"https://urf-training-10.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-10","tags":["pro","training","transition"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-training-10/v2","files":["models/half_pitch.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-11","name":"URF Training Mode 11","type":"game","desc":"Gra skrzydłami i dośrodkowania","entry":"https://urf-training-11.deno.dev/","deploy_url":"https://urf-training-11.deno.dev/","health_url":"https://urf-training-11.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-11","tags":["pro","training","crossing"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-training-11/v2","files":["models/goal.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-12","name":"URF Training Mode 12","type":"game","desc":"Pressing wysoki i niski","entry":"https://urf-training-12.deno.dev/","deploy_url":"https://urf-training-12.deno.dev/","health_url":"https://urf-training-12.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-12","tags":["pro","training","pressing"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-training-12/v2","files":["models/defense_set.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-13","name":"URF Training Mode 13","type":"game","desc":"Gra kombinacyjna w trójkątach","entry":"https://urf-training-13.deno.dev/","deploy_url":"https://urf-training-13.deno.dev/","health_url":"https://urf-training-13.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-13","tags":["pro","training","combinations"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-training-13/v2","files":["models/cones_triangles.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-14","name":"URF Training Mode 14","type":"game","desc":"Szybkie reakcje bramkarza","entry":"https://urf-training-14.deno.dev/","deploy_url":"https://urf-training-14.deno.dev/","health_url":"https://urf-training-14.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-14","tags":["pro","training","goalkeeper"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-training-14/v2","files":["models/goalkeeper_set.glb","audio/whistle.ogg","env/field_env.hdr"]}},
+    { "id":"urf-training-15","name":"URF Training Mode 15","type":"game","desc":"Karny pod presją (RT sky)","entry":"https://urf-training-15.deno.dev/","deploy_url":"https://urf-training-15.deno.dev/","health_url":"https://urf-training-15.deno.dev/healthz","repo":"https://github.com/henryk/urf-training-15","tags":["pro","training","penalty","rt"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"ultra-rt","assets":{"base":"https://cdn.quantum-assets.example/urf-training-15/v2","files":["models/goal.glb","rt/sky/clear_sky.hdr","audio/whistle.ogg","env/field_env.hdr"]}},
+
+    /* ---------- Street Maps 01..10 ---------- */
+    { "id":"urf-street-01","name":"URF Street Map 01","type":"game","desc":"Parking podziemny","entry":"https://urf-street-01.deno.dev/","deploy_url":"https://urf-street-01.deno.dev/","health_url":"https://urf-street-01.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-01","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-01/v2","files":["models/underground_parking.glb","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-02","name":"URF Street Map 02","type":"game","desc":"Rooftop — dach wieżowca","entry":"https://urf-street-02.deno.dev/","deploy_url":"https://urf-street-02.deno.dev/","health_url":"https://urf-street-02.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-02","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-02/v2","files":["models/rooftop.glb","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-03","name":"URF Street Map 03","type":"game","desc":"Podwórko kamienic","entry":"https://urf-street-03.deno.dev/","deploy_url":"https://urf-street-03.deno.dev/","health_url":"https://urf-street-03.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-03","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-03/v2","files":["models/courtyard.glb","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-04","name":"URF Street Map 04","type":"game","desc":"Hala magazynowa","entry":"https://urf-street-04.deno.dev/","deploy_url":"https://urf-street-04.deno.dev/","health_url":"https://urf-street-04.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-04","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-04/v2","files":["models/warehouse.glb","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-05","name":"URF Street Map 05","type":"game","desc":"Skatepark nocą","entry":"https://urf-street-05.deno.dev/","deploy_url":"https://urf-street-05.deno.dev/","health_url":"https://urf-street-05.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-05","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"ultra-rt","assets":{"base":"https://cdn.quantum-assets.example/urf-street-05/v2","files":["models/skatepark.glb","rt/sky/clear_sky.hdr","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-06","name":"URF Street Map 06","type":"game","desc":"Most przemysłowy","entry":"https://urf-street-06.deno.dev/","deploy_url":"https://urf-street-06.deno.dev/","health_url":"https://urf-street-06.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-06","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-06/v2","files":["models/industrial_bridge.glb","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-07","name":"URF Street Map 07","type":"game","desc":"Plaża — turniej 5v5","entry":"https://urf-street-07.deno.dev/","deploy_url":"https://urf-street-07.deno.dev/","health_url":"https://urf-street-07.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-07","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-07/v2","files":["models/beach_arena.glb","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-08","name":"URF Street Map 08","type":"game","desc":"Rynek starego miasta","entry":"https://urf-street-08.deno.dev/","deploy_url":"https://urf-street-08.deno.dev/","health_url":"https://urf-street-08.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-08","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-08/v2","files":["models/old_town_square.glb","audio/beat_loop.ogg"]}},
+    { "id":"urf-street-09","name":"URF Street Map 09","type":"game","desc":"Stacja metra","entry":"https://urf-street-09.deno.dev/","deploy_url":"https://urf-street-09.deno.dev/","health_url":"https://urf-street-09.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-09","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-09/v2","files":["models/subway_station.glb","audio/beat_loop.ogg"]}},
+    
+    { "id":"urf-street-10","name":"URF Street Map 10","type":"game","desc":"Molo / nabrzeże","entry":"https://urf-street-10.deno.dev/","deploy_url":"https://urf-street-10.deno.dev/","health_url":"https://urf-street-10.deno.dev/healthz","repo":"https://github.com/henryk/urf-street-10","tags":["pro","street","map"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["tiktok"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-street-10/v2","files":["models/pier_arena.glb","audio/beat_loop.ogg"]}},
+
+    /* ---------- Women League Packs 01..05 ---------- */
+    { "id":"urf-women-pack-01","name":"URF Women League Pack 01","type":"game","desc":"Zestaw ligowy #01 (fikcyjny)","entry":"https://urf-women-pack-01.deno.dev/","deploy_url":"https://urf-women-pack-01.deno.dev/","health_url":"https://urf-women-pack-01.deno.dev/healthz","repo":"https://github.com/henryk/urf-women-pack-01","tags":["pro","pack","women"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-women-pack-01/v2","files":["kits/generic_01.ktx2","ui/league_badges.glb"]}},
+    { "id":"urf-women-pack-02","name":"URF Women League Pack 02","type":"game","desc":"Zestaw ligowy #02 (fikcyjny)","entry":"https://urf-women-pack-02.deno.dev/","deploy_url":"https://urf-women-pack-02.deno.dev/","health_url":"https://urf-women-pack-02.deno.dev/healthz","repo":"https://github.com/henryk/urf-women-pack-02","tags":["pro","pack","women"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-women-pack-02/v2","files":["kits/generic_02.ktx2","ui/league_badges.glb"]}},
+    { "id":"urf-women-pack-03","name":"URF Women League Pack 03","type":"game","desc":"Zestaw ligowy #03 (fikcyjny)","entry":"https://urf-women-pack-03.deno.dev/","deploy_url":"https://urf-women-pack-03.deno.dev/","health_url":"https://urf-women-pack-03.deno.dev/healthz","repo":"https://github.com/henryk/urf-women-pack-03","tags":["pro","pack","women"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-women-pack-03/v2","files":["kits/generic_03.ktx2","ui/league_badges.glb"]}},
+    { "id":"urf-women-pack-04","name":"URF Women League Pack 04","type":"game","desc":"Zestaw ligowy #04 (fikcyjny)","entry":"https://urf-women-pack-04.deno.dev/","deploy_url":"https://urf-women-pack-04.deno.dev/","health_url":"https://urf-women-pack-04.deno.dev/healthz","repo":"https://github.com/henryk/urf-women-pack-04","tags":["pro","pack","women"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-women-pack-04/v2","files":["kits/generic_04.ktx2","ui/league_badges.glb"]}},
+    { "id":"urf-women-pack-05","name":"URF Women League Pack 05","type":"game","desc":"Zestaw ligowy #05 (fikcyjny)","entry":"https://urf-women-pack-05.deno.dev/","deploy_url":"https://urf-women-pack-05.deno.dev/","health_url":"https://urf-women-pack-05.deno.dev/healthz","repo":"https://github.com/henryk/urf-women-pack-05","tags":["pro","pack","women"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-women-pack-05/v2","files":["kits/generic_05.ktx2","ui/league_badges.glb"]}},
+
+    /* ---------- Manager Expansions 01..05 ---------- */
+    { "id":"urf-manager-exp-01","name":"URF Manager Expansion 01","type":"game","desc":"Ekspansja #01: scouting & akademia","entry":"https://urf-manager-exp-01.deno.dev/","deploy_url":"https://urf-manager-exp-01.deno.dev/","health_url":"https://urf-manager-exp-01.deno.dev/healthz","repo":"https://github.com/henryk/urf-manager-exp-01","tags":["pro","manager","dlc"],"integrations":{"payments":["stripe","paypal"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-manager-exp-01/v2","files":["ui/modules/scouting.glb","ui/modules/academy.glb"]}},
+    { "id":"urf-manager-exp-02","name":"URF Manager Expansion 02","type":"game","desc":"Ekspansja #02: PR & media","entry":"https://urf-manager-exp-02.deno.dev/","deploy_url":"https://urf-manager-exp-02.deno.dev/","health_url":"https://urf-manager-exp-02.deno.dev/healthz","repo":"https://github.com/henryk/urf-manager-exp-02","tags":["pro","manager","dlc"],"integrations":{"payments":["stripe","paypal"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-manager-exp-02/v2","files":["ui/modules/pr.glb","ui/modules/media.glb"]}},
+    { "id":"urf-manager-exp-03","name":"URF Manager Expansion 03","type":"game","desc":"Ekspansja #03: finanse PRO","entry":"https://urf-manager-exp-03.deno.dev/","deploy_url":"https://urf-manager-exp-03.deno.dev/","health_url":"https://urf-manager-exp-03.deno.dev/healthz","repo":"https://github.com/henryk/urf-manager-exp-03","tags":["pro","manager","dlc"],"integrations":{"payments":["stripe","paypal"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-manager-exp-03/v2","files":["ui/modules/finance.glb","ui/modules/sponsors.glb"]}},
+    { "id":"urf-manager-exp-04","name":"URF Manager Expansion 04","type":"game","desc":"Ekspansja #04: medycyna i regeneracja","entry":"https://urf-manager-exp-04.deno.dev/","deploy_url":"https://urf-manager-exp-04.deno.dev/","health_url":"https://urf-manager-exp-04.deno.dev/healthz","repo":"https://github.com/henryk/urf-manager-exp-04","tags":["pro","manager","dlc"],"integrations":{"payments":["stripe","paypal"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"medium","assets":{"base":"https://cdn.quantum-assets.example/urf-manager-exp-04/v2","files":["ui/modules/physio.glb","ui/modules/recovery.glb"]}},
+    { "id":"urf-manager-exp-05","name":"URF Manager Expansion 05","type":"game","desc":"Ekspansja #05: analityka meczowa","entry":"https://urf-manager-exp-05.deno.dev/","deploy_url":"https://urf-manager-exp-05.deno.dev/","health_url":"https://urf-manager-exp-05.deno.dev/healthz","repo":"https://github.com/henryk/urf-manager-exp-05","tags":["pro","manager","dlc"],"integrations":{"payments":["stripe","paypal"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"high","assets":{"base":"https://cdn.quantum-assets.example/urf-manager-exp-05/v2","files":["ui/modules/analytics.glb","ui/modules/heatmaps.glb"]}},
+
+    /* ---------- Legends — Eras ---------- */
+    { "id":"urf-legends-era-70s","name":"URF Legends Era 70s","type":"game","desc":"Fikcyjny styl lat 70.","entry":"https://urf-legends-era-70s.deno.dev/","deploy_url":"https://urf-legends-era-70s.deno.dev/","health_url":"https://urf-legends-era-70s.deno.dev/healthz","repo":"https://github.com/henryk/urf-legends-era-70s","tags":["pro","retro","70s"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"retro","assets":{"base":"https://cdn.quantum-assets.example/urf-legends-era-70s/v2","files":["textures/pbr/retro_kit_70s.ktx2","audio/retro_crowd.ogg"]}},
+    { "id":"urf-legends-era-80s","name":"URF Legends Era 80s","type":"game","desc":"Fikcyjny styl lat 80.","entry":"https://urf-legends-era-80s.deno.dev/","deploy_url":"https://urf-legends-era-80s.deno.dev/","health_url":"https://urf-legends-era-80s.deno.dev/healthz","repo":"https://github.com/henryk/urf-legends-era-80s","tags":["pro","retro","80s"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"retro","assets":{"base":"https://cdn.quantum-assets.example/urf-legends-era-80s/v2","files":["textures/pbr/retro_kit_80s.ktx2","audio/retro_crowd.ogg"]}},
+    { "id":"urf-legends-era-90s","name":"URF Legends Era 90s","type":"game","desc":"Fikcyjny styl lat 90.","entry":"https://urf-legends-era-90s.deno.dev/","deploy_url":"https://urf-legends-era-90s.deno.dev/","health_url":"https://urf-legends-era-90s.deno.dev/healthz","repo":"https://github.com/henryk/urf-legends-era-90s","tags":["pro","retro","90s"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"retro","assets":{"base":"https://cdn.quantum-assets.example/urf-legends-era-90s/v2","files":["textures/pbr/retro_kit_90s.ktx2","audio/retro_crowd.ogg"]}},
+    { "id":"urf-legends-era-00s","name":"URF Legends Era 00s","type":"game","desc":"Styl lat 00s","entry":"https://urf-legends-era-00s.deno.dev/","deploy_url":"https://urf-legends-era-00s.deno.dev/","health_url":"https://urf-legends-era-00s.deno.dev/healthz","repo":"https://github.com/henryk/urf-legends-era-00s","tags":["pro","retro","00s"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"retro","assets":{"base":"https://cdn.quantum-assets.example/urf-legends-era-00s/v2","files":["textures/pbr/retro_kit_00s.ktx2","audio/retro_crowd.ogg"]}},
+    { "id":"urf-legends-era-10s","name":"URF Legends Era 10s","type":"game","desc":"Styl lat 10s","entry":"https://urf-legends-era-10s.deno.dev/","deploy_url":"https://urf-legends-era-10s.deno.dev/","health_url":"https://urf-legends-era-10s.deno.dev/healthz","repo":"https://github.com/henryk/urf-legends-era-10s","tags":["pro","retro","10s"],"integrations":{"payments":["stripe"],"auth":["token"],"social":["youtube"],"ci":["github-actions","deno-deploy"]},"gfx_preset":"retro","assets":{"base":"https://cdn.quantum-assets.example/urf-legends-era-10s/v2","files":["textures/pbr/retro_kit_10s.ktx2","audio/retro_crowd.ogg"]}}
+,
+    /* ---------- Aplikacje / narzędzia PRO ---------- */
+    {
+      "id": "leoncloudq",
+      "name": "LeonCloudQ",
+      "type": "app",
+      "desc": "Chmura i workspace PRO (projekty, pliki, synchronizacja, chat-asystent).",
+      "entry": "https://leoncloudq.deno.dev/",
+      "deploy_url": "https://leoncloudq.deno.dev/",
+      "health_url": "https://leoncloudq.deno.dev/healthz",
+      "repo": "https://github.com/henryk/leoncloudq",
+      "tags": ["pro","app","global","ready"],
+      "integrations": { "payments":["stripe","paypal"], "auth":["token","oauth"], "social":["tiktok","youtube","twitch"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/leoncloudq/v2", "files":["ui/icons/settings.svg","ui/icons/project.svg","ui/icons/cloud.svg"] }
+    },
+    {
+      "id": "translator-live",
+      "name": "Interpreter Live (RT)",
+      "type": "app",
+      "desc": "Tłumaczenie głosowe w czasie rzeczywistym, napisy i lektor.",
+      "entry": "https://translator-live.deno.dev/",
+      "deploy_url": "https://translator-live.deno.dev/",
+      "health_url": "https://translator-live.deno.dev/healthz",
+      "repo": "https://github.com/henryk/translator-live",
+      "tags": ["pro","app","realtime","voice"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/translator-live/v2", "files":["ui/icons/mic.svg","audio/ping.ogg"] }
+    },
+    {
+      "id": "teacher-ai",
+      "name": "Teacher AI",
+      "type": "app",
+      "desc": "Nauczyciel/mentor z planami nauki, quizami, generowaniem notatek.",
+      "entry": "https://teacher-ai.deno.dev/",
+      "deploy_url": "https://teacher-ai.deno.dev/",
+      "health_url": "https://teacher-ai.deno.dev/healthz",
+      "repo": "https://github.com/henryk/teacher-ai",
+      "tags": ["pro","app","education"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/teacher-ai/v2", "files":["ui/icons/book.svg","ui/icons/quiz.svg"] }
+    },
+    {
+      "id": "media-maker",
+      "name": "Media Maker (short/long films)",
+      "type": "app",
+      "desc": "Generowanie filmów, lektor, napisy, eksport do social, pipeline PRO.",
+      "entry": "https://media-maker.deno.dev/",
+      "deploy_url": "https://media-maker.deno.dev/",
+      "health_url": "https://media-maker.deno.dev/healthz",
+      "repo": "https://github.com/henryk/media-maker",
+      "tags": ["pro","app","video","studio"],
+      "integrations": { "payments":["stripe","paypal"], "auth":["token"], "social":["tiktok","youtube","twitch"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/media-maker/v2", "files":["ui/icons/cut.svg","ui/icons/captions.svg","audio/beep.ogg"] }
+    },
+    {
+      "id": "photo-enhance",
+      "name": "Photo Enhancer (SR/Restoration)",
+      "type": "app",
+      "desc": "Podbijanie jakości zdjęć, odszumianie, kolorowanie, SR ×4.",
+      "entry": "https://photo-enhance.deno.dev/",
+      "deploy_url": "https://photo-enhance.deno.dev/",
+      "health_url": "https://photo-enhance.deno.dev/healthz",
+      "repo": "https://github.com/henryk/photo-enhance",
+      "tags": ["pro","app","photo","sr"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["tiktok","youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/photo-enhance/v2", "files":["ui/icons/wand.svg"] }
+    },
+    {
+      "id": "snapvault",
+      "name": "SnapVault (storage)",
+      "type": "app",
+      "desc": "Magazyn plików z presign URL, rejestrem wersji, udostępnianiem.",
+      "entry": "https://snapvault.deno.dev/",
+      "deploy_url": "https://snapvault.deno.dev/",
+      "health_url": "https://snapvault.deno.dev/healthz",
+      "repo": "https://github.com/henryk/snapvault",
+      "tags": ["pro","app","storage","sharing"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/snapvault/v2", "files":["ui/icons/folder.svg","ui/icons/link.svg"] }
+    },
+    {
+      "id": "cryptex-marketing",
+      "name": "Cryptex Marketing",
+      "type": "app",
+      "desc": "Kampanie globalne (YT/TT), shorty auto, linki ref i analityka.",
+      "entry": "https://cryptex-marketing.deno.dev/",
+      "deploy_url": "https://cryptex-marketing.deno.dev/",
+      "health_url": "https://cryptex-marketing.deno.dev/healthz",
+      "repo": "https://github.com/henryk/cryptex-marketing",
+      "tags": ["pro","app","marketing","ads"],
+      "integrations": { "payments":["stripe","paypal"], "auth":["token"], "social":["tiktok","youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/cryptex-marketing/v2", "files":["ui/icons/campaign.svg","ui/icons/links.svg"] }
+    },
+    {
+      "id": "rocket-chat-stack",
+      "name": "Rocket Chat Stack",
+      "type": "app",
+      "desc": "Chat + integracje devops (deploy, monitoring, webhooki).",
+      "entry": "https://rocket-chat-stack.deno.dev/",
+      "deploy_url": "https://rocket-chat-stack.deno.dev/",
+      "health_url": "https://rocket-chat-stack.deno.dev/healthz",
+      "repo": "https://github.com/henryk/rocket-chat-stack",
+      "tags": ["pro","app","chat","devops"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["twitch"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/rocket-chat-stack/v2", "files":["ui/icons/chat.svg","ui/icons/webhook.svg"] }
+    },
+    {
+      "id": "video-ai-gen",
+      "name": "AI Video Generator",
+      "type": "app",
+      "desc": "GenAI do klipów promocyjnych i trailerów.",
+      "entry": "https://video-ai-gen.deno.dev/",
+      "deploy_url": "https://video-ai-gen.deno.dev/",
+      "health_url": "https://video-ai-gen.deno.dev/healthz",
+      "repo": "https://github.com/henryk/video-ai-gen",
+      "tags": ["pro","app","video","genai"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["tiktok","youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/video-ai-gen/v2", "files":["ui/icons/sparkles.svg"] }
+    },
+    {
+      "id": "film-longform",
+      "name": "Film Studio Longform",
+      "type": "app",
+      "desc": "Długometraż: scenopis, ujęcia, montaż, eksport 4K.",
+      "entry": "https://film-longform.deno.dev/",
+      "deploy_url": "https://film-longform.deno.dev/",
+      "health_url": "https://film-longform.deno.dev/healthz",
+      "repo": "https://github.com/henryk/film-longform",
+      "tags": ["pro","app","film","studio"],
+      "integrations": { "payments":["stripe","paypal"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/film-longform/v2", "files":["ui/icons/film.svg"] }
+    },
+    {
+      "id": "film-shortform",
+      "name": "Film Studio Shortform",
+      "type": "app",
+      "desc": "Shorty (9:16 / 1:1 / 16:9), auto-captioning, hooki.",
+      "entry": "https://film-shortform.deno.dev/",
+      "deploy_url": "https://film-shortform.deno.dev/",
+      "health_url": "https://film-shortform.deno.dev/healthz",
+      "repo": "https://github.com/henryk/film-shortform",
+      "tags": ["pro","app","film","shorts"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["tiktok","youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/film-shortform/v2", "files":["ui/icons/short.svg"] }
+    },
+    {
+      "id": "ai-music",
+      "name": "AI Music Studio",
+      "type": "app",
+      "desc": "Generowanie ścieżek dźwiękowych, miks, mastering.",
+      "entry": "https://ai-music.deno.dev/",
+      "deploy_url": "https://ai-music.deno.dev/",
+      "health_url": "https://ai-music.deno.dev/healthz",
+      "repo": "https://github.com/henryk/ai-music",
+      "tags": ["pro","app","audio","music"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube","twitch"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/ai-music/v2", "files":["ui/icons/music.svg"] }
+    },
+    {
+      "id": "ai-3d",
+      "name": "AI 3D Generator",
+      "type": "app",
+      "desc": "Generowanie obiektów 3D (GLB), tekstur PBR (KTX2).",
+      "entry": "https://ai-3d.deno.dev/",
+      "deploy_url": "https://ai-3d.deno.dev/",
+      "health_url": "https://ai-3d.deno.dev/healthz",
+      "repo": "https://github.com/henryk/ai-3d",
+      "tags": ["pro","app","3d","pbr"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "high",
+      "assets": { "base":"https://cdn.quantum-assets.example/ai-3d/v2", "files":["ui/icons/cube.svg"] }
+    },
+    {
+      "id": "ad-crafter",
+      "name": "Ad Crafter Global",
+      "type": "app",
+      "desc": "Generowanie kreacji i setów reklamowych z A/B testami.",
+      "entry": "https://ad-crafter.deno.dev/",
+      "deploy_url": "https://ad-crafter.deno.dev/",
+      "health_url": "https://ad-crafter.deno.dev/healthz",
+      "repo": "https://github.com/henryk/ad-crafter",
+      "tags": ["pro","app","ads","ab-testing"],
+      "integrations": { "payments":["stripe","paypal"], "auth":["token"], "social":["tiktok","youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/ad-crafter/v2", "files":["ui/icons/ad.svg"] }
+    },
+    {
+      "id": "seo-boost",
+      "name": "SEO Boost Suite",
+      "type": "app",
+      "desc": "Audyt SEO, meta, sitemap, schema, monitoring SERP.",
+      "entry": "https://seo-boost.deno.dev/",
+      "deploy_url": "https://seo-boost.deno.dev/",
+      "health_url": "https://seo-boost.deno.dev/healthz",
+      "repo": "https://github.com/henryk/seo-boost",
+      "tags": ["pro","app","seo"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/seo-boost/v2", "files":["ui/icons/seo.svg"] }
+    },
+    {
+      "id": "yt-ops",
+      "name": "YouTube Ops",
+      "type": "app",
+      "desc": "Planowanie uploadów, miniatury, tagi, opisy, harmonogram.",
+      "entry": "https://yt-ops.deno.dev/",
+      "deploy_url": "https://yt-ops.deno.dev/",
+      "health_url": "https://yt-ops.deno.dev/healthz",
+      "repo": "https://github.com/henryk/yt-ops",
+      "tags": ["pro","app","youtube","ops"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["youtube"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/yt-ops/v2", "files":["ui/icons/youtube.svg"] }
+    },
+    {
+      "id": "tt-ops",
+      "name": "TikTok Ops",
+      "type": "app",
+      "desc": "Shorty, automaty, hashtag research, publikacje.",
+      "entry": "https://tt-ops.deno.dev/",
+      "deploy_url": "https://tt-ops.deno.dev/",
+      "health_url": "https://tt-ops.deno.dev/healthz",
+      "repo": "https://github.com/henryk/tt-ops",
+      "tags": ["pro","app","tiktok","ops"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["tiktok"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/tt-ops/v2", "files":["ui/icons/tiktok.svg"] }
+    },
+    {
+      "id": "twitch-ops",
+      "name": "Twitch Ops",
+      "type": "app",
+      "desc": "Stream schedule, VOD klipy, highlighty.",
+      "entry": "https://twitch-ops.deno.dev/",
+      "deploy_url": "https://twitch-ops.deno.dev/",
+      "health_url": "https://twitch-ops.deno.dev/healthz",
+      "repo": "https://github.com/henryk/twitch-ops",
+      "tags": ["pro","app","twitch","ops"],
+      "integrations": { "payments":["stripe"], "auth":["token"], "social":["twitch"], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "medium",
+      "assets": { "base":"https://cdn.quantum-assets.example/twitch-ops/v2", "files":["ui/icons/twitch.svg"] }
+    },
+
+    /* ---------- Infra / Huby ---------- */
+    {
+      "id": "quantum-cdn",
+      "name": "Quantum CDN Edge",
+      "type": "infra",
+      "desc": "Edge-cached assets & manifests (KTX2, GLB, EXR, HDR).",
+      "entry": "https://quantum-cdn.deno.dev/",
+      "deploy_url": "https://quantum-cdn.deno.dev/",
+      "health_url": "https://quantum-cdn.deno.dev/healthz",
+      "repo": "https://github.com/henryk/quantum-cdn",
+      "tags": ["pro","infra","cdn","edge"],
+      "integrations": { "payments":[], "auth":["token"], "social":[], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "n/a",
+      "assets": { "base":"https://cdn.quantum-assets.example/cdn/v2", "files":["docs/manifest.json"] }
+    },
+    {
+      "id": "quantum-kv-sync",
+      "name": "Quantum KV Sync",
+      "type": "infra",
+      "desc": "Synchronizacja stanu projektów, backupy, migracje.",
+      "entry": "https://quantum-kv-sync.deno.dev/",
+      "deploy_url": "https://quantum-kv-sync.deno.dev/",
+      "health_url": "https://quantum-kv-sync.deno.dev/healthz",
+      "repo": "https://github.com/henryk/quantum-kv-sync",
+      "tags": ["pro","infra","kv","sync"],
+      "integrations": { "payments":[], "auth":["token"], "social":[], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "n/a",
+      "assets": { "base":"https://cdn.quantum-assets.example/kv-sync/v2", "files":["docs/schema.json"] }
+    },
+    {
+      "id": "quantum-telemetry",
+      "name": "Quantum Telemetry",
+      "type": "infra",
+      "desc": "Zdarzenia, metryki, dashboardy SLO.",
+      "entry": "https://quantum-telemetry.deno.dev/",
+      "deploy_url": "https://quantum-telemetry.deno.dev/",
+      "health_url": "https://quantum-telemetry.deno.dev/healthz",
+      "repo": "https://github.com/henryk/quantum-telemetry",
+      "tags": ["pro","infra","metrics"],
+      "integrations": { "payments":[], "auth":["token"], "social":[], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "n/a",
+      "assets": { "base":"https://cdn.quantum-assets.example/telemetry/v2", "files":["docs/events.json"] }
+    },
+    {
+      "id": "quantum-payments",
+      "name": "Quantum Payments Hub",
+      "type": "infra",
+      "desc": "Subskrypcje, faktury, webhooki ERP/CRM.",
+      "entry": "https://quantum-payments.deno.dev/",
+      "deploy_url": "https://quantum-payments.deno.dev/",
+      "health_url": "https://quantum-payments.deno.dev/healthz",
+      "repo": "https://github.com/henryk/quantum-payments",
+      "tags": ["pro","infra","payments"],
+      "integrations": { "payments":["stripe","paypal"], "auth":["token"], "social":[], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "n/a",
+      "assets": { "base":"https://cdn.quantum-assets.example/payments/v2", "files":["docs/schema.json"] }
+    },
+    {
+      "id": "quantum-webhooks",
+      "name": "Quantum Webhooks Hub",
+      "type": "infra",
+      "desc": "Konektory do ERP/CRM, retry, podpisy HMAC.",
+      "entry": "https://quantum-webhooks.deno.dev/",
+      "deploy_url": "https://quantum-webhooks.deno.dev/",
+      "health_url": "https://quantum-webhooks.deno.dev/healthz",
+      "repo": "https://github.com/henryk/quantum-webhooks",
+      "tags": ["pro","infra","webhooks"],
+      "integrations": { "payments":[], "auth":["token"], "social":[], "ci":["github-actions","deno-deploy"] },
+      "gfx_preset": "n/a",
+      "assets": { "base":"https://cdn.quantum-assets.example/webhooks/v2", "files":["docs/endpoints.json"] }
+    },
+
+    /* ---------- Content Packs do pełnej puli (przykładowe) ---------- */
+    { "id":"pack-001","name":"Content Pack 001","type":"pack","desc":"Pakiet generics #001","entry":"https://pack-001.deno.dev/","deploy_url":"https://pack-001.deno.dev/","health_url":"https://pack-001.deno.dev/healthz","repo":"https://github.com/henryk/pack-001","tags":["pro","pack"],"integrations":{"payments":[],"auth":["token"],"social":[],"ci":["github-actions","deno-deploy"]},"gfx_preset":"n/a","assets":{"base":"https://cdn.quantum-assets.example/pack-001/v2","files":["readme.md"]}},
+    { "id":"pack-002","name":"Content Pack 002","type":"pack","desc":"Pakiet generics #002","entry":"https://pack-002.deno.dev/","deploy_url":"https://pack-002.deno.dev/","health_url":"https://pack-002.deno.dev/healthz","repo":"https://github.com/henryk/pack-002","tags":["pro","pack"],"integrations":{"payments":[],"auth":["token"],"social":[],"ci":["github-actions","deno-deploy"]},"gfx_preset":"n/a","assets":{"base":"https://cdn.quantum-assets.example/pack-002/v2","files":["readme.md"]}},
+    { "id":"pack-003","name":"Content Pack 003","type":"pack","desc":"Pakiet generics #003","entry":"https://pack-003.deno.dev/","deploy_url":"https://pack-003.deno.dev/","health_url":"https://pack-003.deno.dev/healthz","repo":"https://github.com/henryk/pack-003","tags":["pro","pack"],"integrations":{"payments":[],"auth":["token"],"social":[],"ci":["github-actions","deno-deploy"]},"gfx_preset":"n/a","assets":{"base":"https://cdn.quantum-assets.example/pack-003/v2","files":["readme.md"]}}
+  ]
 }
+  
